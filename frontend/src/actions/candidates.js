@@ -1,0 +1,53 @@
+import axios from 'axios';
+import { reset } from 'redux-form';
+import { GET_CANDIDATES, GET_CANDIDATE, ADD_CANDIDATE, DELETE_CANDIDATE, EDIT_CANDIDATE } from "./types";
+import history from '../history'
+import { tokenConfig } from './auth';
+
+// Get Candidates
+export const getCandidates = () => async (dispatch, getState) => {
+    const res = await axios.get('/api/candidates/', tokenConfig(getState));
+    dispatch({
+        type: GET_CANDIDATES,
+        payload: res.data
+    });
+};
+
+// Get Candidate
+export const getCandidate = id => async (dispatch, getState) => {
+    const res = await axios.get(`/api/candidates/${id}/`, tokenConfig(getState));
+    dispatch({
+       type: GET_CANDIDATE,
+       payload: res.data
+    });
+};
+
+// Add Candidate
+export const addCandidate = formValues => async (dispatch, getState) => {
+    const res = await axios.post('/api/candidates/', { ...formValues }, tokenConfig(getState));
+    dispatch({
+      type: ADD_CANDIDATE,
+      payload: res.data
+    });
+    dispatch(reset('candidateForm')); // Dispatching reset('formName') clears our form after we submission succeeds.
+};
+
+// Delete Candidate
+export const deleteCandidate = id => async (dispatch, getState) => {
+    await axios.delete(`/api/candidates/${id}/`, tokenConfig(getState));
+    dispatch({
+        type: DELETE_CANDIDATE,
+        payload: id
+    });
+    history.push('/'); // Automatically takes us from the modal window to the index page after removing an object
+};
+
+// Edit Candidate
+export const editCandidate = (id, formValues) => async (dispatch, getState) => {
+    const res = await axios.patch(`/api/candidates/${id}/`, formValues, tokenConfig(getState));
+    dispatch({
+        type: EDIT_CANDIDATE,
+        payload: res.data
+    });
+    history.push('/');
+};

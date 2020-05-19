@@ -1,0 +1,10 @@
+.body{
+      height: 100%;
+}
+
+.body{
+    background-image: url(p.png);
+    /*background-repeat: no-repeat;*/
+    /*background-size: cover;*/
+    /*background-attachment: fixed;*/
+}
