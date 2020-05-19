@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import FieldComponent from "./FieldComponent";
 
 class CandidateForm extends Component{
     renderField = ({ input, label, meta: { touched, error } }) => {
@@ -15,6 +16,7 @@ class CandidateForm extends Component{
     };
 
     onSubmit = formValues => {
+        console.log('Form values ... ' + JSON.stringify(formValues['cv']));
         this.props.onSubmit(formValues);
     };
 
@@ -27,6 +29,8 @@ class CandidateForm extends Component{
               className='ui form error'>
                   <Field name='name' component={this.renderField} label='Name' />
                   <Field name='email' component={this.renderField} label='E-mail' />
+                  {/*<Field name='hello_message' component={this.renderField} label='Hello' />*/}
+                  <Field name='cv' component={FieldComponent} label='CV' />
                   <button className='ui primary button'>{btnText}</button>
             </form>
           </div>

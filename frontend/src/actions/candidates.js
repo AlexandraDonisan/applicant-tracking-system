@@ -24,7 +24,10 @@ export const getCandidate = id => async (dispatch, getState) => {
 
 // Add Candidate
 export const addCandidate = formValues => async (dispatch, getState) => {
+    console.log('In axios cv is ' + JSON.stringify(formValues['cv']));
+    const config = {headers: {'Content-Type': 'multipart/form-data'}};
     const res = await axios.post('/api/candidates/', { ...formValues }, tokenConfig(getState));
+    console.log("Response of axios" + res.data);
     dispatch({
       type: ADD_CANDIDATE,
       payload: res.data

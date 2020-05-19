@@ -30,7 +30,13 @@ class CandidateDetails extends Component {
                         <div role="listitem" className="item">
                             <div className="content">
                                 <div className="header">Hello Message</div>
-                                {/*{this.props.candidate.hello_message}*/}
+                                {this.props.candidate.hello_message}
+                            </div>
+                        </div>
+                        <div role="listitem" className="item">
+                            <div className="content">
+                                <div className="header">CV</div>
+                                {this.props.candidate.cv}
                             </div>
                         </div>
                     </div>
