@@ -11,6 +11,7 @@ import CandidateCreate from "./candidates/CandidateCreate";
 import CandidateDelete from "./candidates/CandidateDelete";
 import CandidateEdit from "./candidates/CandidateEdit";
 import CandidateDetails from "./candidates/CandidateDetails"
+import CandidateScore from "./candidates/CandidateScore";
 import LoginForm from './auth/LoginForm'; //
 import PrivateRoute from './common/PrivateRoute';
 import { loadUser } from '../actions/auth';
@@ -36,6 +37,7 @@ class App extends Component{
                     <Route exact path='/details/:id' component={CandidateDetails} />
                     <Route exact path='/edit/:id' component={CandidateEdit} />
                     <Route exact path='/delete/:id' component={CandidateDelete} />
+                    <Route exact path='/score/:id' component={CandidateScore} />
                 </Switch>
           </Router>
       </Provider>

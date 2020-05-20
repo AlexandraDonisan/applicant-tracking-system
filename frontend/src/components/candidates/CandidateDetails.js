@@ -39,6 +39,14 @@ class CandidateDetails extends Component {
                                 {this.props.candidate.cv}
                             </div>
                         </div>
+                        <div role="listitem" className="item">
+                            <div className="content">
+                                <div className="header">Score</div>
+                                {
+                                    this.props.candidate.score
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -14,6 +14,12 @@
   <div id='app'></div>
   <div id="modal"></div>
 
+  <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <p><input type="submit" value="Upload" /></p>
+  </form>
+
   {% load static %}
   <script src="{% static 'frontend/main.js' %}"></script>
 </body>

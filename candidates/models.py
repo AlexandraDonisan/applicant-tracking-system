@@ -16,8 +16,15 @@ class Candidate(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     cv = models.FileField(blank=True, null=True, default=None)
     profile_image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+    score = models.IntegerField(null=True)
+    # blank=True => default value to 0, that's why we use null; it makes it  clear that the score is unknown
     owner = models.ForeignKey(
         User, related_name="candidates", on_delete=models.CASCADE, null=True)
+
+    def compute_score(self):
+        if self.score is None:
+            self.score = 100
+        # return self.score
 
     def __str__(self):
         return "{}: Candidate named {}".format(self.id, self.name)
