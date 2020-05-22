@@ -4,16 +4,13 @@ import { addCandidate } from "../../actions/candidates";
 import CandidateForm from "./CandidateForm";
 
 class CandidateCreate extends Component{
-    onSubmit = formValues => {
-        this.props.addCandidate(formValues);
-    };
 
     render() {
         return (
             <div className='ui container'>
                 <div>Candidate Create Form</div>
                     <div style={{ marginTop: '2rem' }}>
-                        <CandidateForm destroyOnUnmount={false} onSubmit={this.onSubmit} />
+                        <CandidateForm destroyOnUnmount={false} />
                     </div>
             </div>
         );

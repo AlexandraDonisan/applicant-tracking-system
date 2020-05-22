@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework import routers
-from .views import CandidateViewSet, create_candidate_view
+from .views import CandidateViewSet
 
 router = routers.DefaultRouter()
 router.register('candidates', CandidateViewSet, 'candidates')
@@ -8,7 +8,7 @@ router.register('candidates', CandidateViewSet, 'candidates')
 # We use three arguments to the register() method, but the third argument is not required.
 
 urlpatterns = [
-    path('candidate/files/', create_candidate_view, name='upload_candidate'),
+
 ]
 
 urlpatterns += router.urls
