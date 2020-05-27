@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import FieldComponent from "./FieldComponent";
-import FileInput from "./FileComponent";
-import axios from 'axios';
 
 class CandidateForm extends Component{
     renderField = ({ input, label, meta: { touched, error } }) => {
@@ -18,36 +15,19 @@ class CandidateForm extends Component{
     };
 
     onSubmit = formValues => {
-        const fd = new FormData();
-        console.log("Selected file:" +  this.state.selectedFile);
-        fd.append('cv', this.state.selectedFile, this.state.selectedFile.name);
-        fd.append('name', formValues['name']);
-        fd.append('email', formValues['email']);
-        axios.post('http://127.0.0.1:8000/api/candidates/', fd)
-            .then(res => {
-                console.log(res);
-            });
-    };
-
-    fileSelectedHandler = event => {
-        this.setState({
-            selectedFile: event.target.files[0]
-        })
+        this.props.onSubmit(formValues);
     };
 
     render(){
         const btnText = `${this.props.initialValues ? 'Update' : 'Add'}`;
         return (
           <div className='ui segment'>
-            <form encType="multipart/form-data"
-              onSubmit={this.onSubmit}
+            <form
+              onSubmit={this.props.handleSubmit(this.onSubmit)}
               className='ui form error'>
                   <Field name='name' component={this.renderField} label='Name' />
                   <Field name='email' component={this.renderField} label='E-mail' />
-                  {/*<Field name='hello_message' component={this.renderField} label='Hello' />*/}
-                  {/*<Field name='cv' type='file' component={FileInput} label='CV' />*/}
-                    <input type='file' name='cv' onChange={this.fileSelectedHandler}/>
-                    <button onClick={() => this.onSubmit}>aspaUsaMl </button>
+                  <Field name='hello_message' component={this.renderField} label='Hello' />
                   <button className='ui primary button'>{btnText}</button>
             </form>
           </div>

@@ -24,9 +24,25 @@ class Candidate(models.Model):
     def compute_score(self):
         if self.score is None:
             self.score = 100
-        # return self.score
+        return 200
 
     def __str__(self):
+
         return "{}: Candidate named {}".format(self.id, self.name)
+
+
+class Keywords(models.Model):
+    id = models.AutoField(primary_key=True)
+    word = models.CharField(max_length=200)
+    weight = models.IntegerField(null=True)
+
+
+class Job(models.Model):
+    id = models.AutoField(primary_key=True)
+    job_description = models.FileField(blank=True, null=True, default=None, upload_to='./media/job_description')
+    keywords = models.ForeignKey(
+        Keywords, related_name="keywords", on_delete=models.CASCADE, null=True)
+
+
 
 

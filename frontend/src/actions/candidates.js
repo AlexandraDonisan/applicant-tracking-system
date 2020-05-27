@@ -35,15 +35,6 @@ export const getScore = id => async (dispatch, getState) => {
 export const addCandidate = formValues => async (dispatch, getState) => {
     console.log('In axios formValues ' + JSON.stringify(formValues));
 
-    const data = new FormData();
-
-    data.append('name', formValues['name']);
-    data.append('email', formValues['email']);
-    data.append('file', new Blob([formValues['cv']], { type: 'pdf/doc' }));
-    const res1 = await axios.post('/api/candidates/', data,  tokenConfig(getState));
-    console.log("Response of axios" + JSON.stringify(res1.data));
-
-
     const res = await axios.post('/api/candidates/', { ...formValues }, tokenConfig(getState));
     console.log("Response of axios" + res.data);
     dispatch({

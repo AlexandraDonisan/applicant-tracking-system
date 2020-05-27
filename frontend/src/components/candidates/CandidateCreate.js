@@ -1,25 +1,35 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addCandidate } from "../../actions/candidates";
-import CandidateForm from "./CandidateForm";
+import axios from 'axios';
+import {Field} from "redux-form";
+import {addCandidate} from "../../actions/candidates";
 
-class CandidateCreate extends Component{
+class CandidateCreate extends Component {
+  fileUploadHandler = () => {
+    const fd = new FormData();
+    fd.append('cv', this.state.selectedFile, this.state.selectedFile.name);
+    fd.append('email', this.state.email);
+    fd.append('name', this.state.name);
+    axios.post('http://127.0.0.1:8000/api/candidates/', fd)
+    .catch((res) => {
+        console.log(res);
+    })
+  };
 
-    render() {
-        return (
-            <div className='ui container'>
-                <div>Candidate Create Form</div>
-                    <div style={{ marginTop: '2rem' }}>
-                        <CandidateForm destroyOnUnmount={false} />
-                    </div>
-            </div>
-        );
-    }
-    // By setting destroyOnUnmount to false, we can disable that the Redux Form automatically destroys a form
-    // state in the Redux store when the component is unmounted. It is for displaying the form state in an editing form
+  render() {
+    return (
+      <div className="App">
+        <input type="file" onChange={event => {this.setState({selectedFile: event.target.files[0]})}} />
+
+        <label>Email:</label>
+        <input type="text" name="email" onChange={event => {this.setState({email: event.target.value})}} />
+
+        <label>Name:</label>
+        <input type="text" name="name" onChange={event => {this.setState({name: event.target.value})}} />
+        <button onClick={this.fileUploadHandler}>marele kkt</button>
+      </div>
+    );
+  }
+
 }
 
-export default connect(
-    null,  // If we don’t need to specify a mapStateToProps function, set null into connect().
-    {addCandidate}
-)(CandidateCreate)
+export default CandidateCreate
