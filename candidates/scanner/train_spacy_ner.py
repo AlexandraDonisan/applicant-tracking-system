@@ -146,7 +146,7 @@ def save_model(nlp):
     return model_file
 
 
-def summarize_text(text, cv_name=None, save_path='../../cv/summarized_cvs_with_spacy', model_name="../../cv_tagger"):
+def summarize_text(text, cv_name=None, save_path='cv/summarized_cvs_with_spacy', model_name="cv_tagger"):
     # test the model and evaluate it
     nlp = spacy.load(model_name)
     resume_number = 0
@@ -158,6 +158,7 @@ def summarize_text(text, cv_name=None, save_path='../../cv/summarized_cvs_with_s
         text_filename = os.path.join(save_path, "resume" + str(resume_number) + ".txt")
 
     write_summarized_doc_to_file(text_filename, nlp, text)
+    return text_filename
 
 
 def main_train():
@@ -179,4 +180,4 @@ def main():
         summarize_text(text, 'Andy')
 
 
-main()
+# main()

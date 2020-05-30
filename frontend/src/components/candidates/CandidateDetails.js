@@ -47,6 +47,15 @@ class CandidateDetails extends Component {
                                 }
                             </div>
                         </div>
+                        <div role="listitem" className="item">
+                            <div className="content">
+                                <div className="header">Summarized CV</div>
+                                {
+                                    this.props.candidate.summarized_cv.split('\n').map(function(item) {
+                                        return (<span>{item}<br/></span>)})
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

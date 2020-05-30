@@ -17,7 +17,7 @@ lemmer = nltk.stem.WordNetLemmatizer()
 def convert_documents_to_txt(path):
     """
     :param path: Path where the document in format .pdf or .docx are placed
-                e.g r"G:/Uni/Third Year/Second Semester/LICENCE/TrainSpacyNER/job_description"
+                e.g r"LICENCE/TrainSpacyNER/job_description"
     :return: Convert all documents found in the path into .txt and add them into a common directory
     """
     utils.go_through_dir(path)

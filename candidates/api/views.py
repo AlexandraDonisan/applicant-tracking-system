@@ -20,9 +20,10 @@ class CandidateViewSet(viewsets.ModelViewSet):
         serializer.save(owner=User.objects.first())
         # The serializer will now have the 'owner' field by overriding the perform_create()
 
-    @staticmethod
-    def get_score_from_candidate():
-        return Candidate.compute_score
+    # @staticmethod
+    # def get_score_from_candidate():
+    #     return Candidate.compute_score
+
 
 
 class KeywordsViewSet(viewsets.ModelViewSet):
