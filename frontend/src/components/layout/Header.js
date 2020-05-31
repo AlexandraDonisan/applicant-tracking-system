@@ -31,7 +31,7 @@ class Header extends Component {
 
     return (
       <div className='ui inverted menu' style={{ borderRadius: '0' }}>
-            <a className='header item'>InstATS APP</a>
+            <a className='ui header olive item'>InstATS APP</a>
             {/*<Link className='header item' to="/">CandidateCRUD</Link>*/}
             {isAuthenticated ? userLinks : guestLinks}
       </div>

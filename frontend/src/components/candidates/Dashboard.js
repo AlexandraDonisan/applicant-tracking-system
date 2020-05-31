@@ -7,14 +7,14 @@ class Dashboard extends Component {
     render() {
         return (
             <div className='ui container'>
-                <div className='right floated fixed'>
-                    <div className="ui animated button" tabIndex="0" onChange={console.log("Button Pressed on Visible ")}>
-                        <div className="visible content" >Compute Scores</div>
-                        <div className="hidden content" onClick={console.log("Button Pressed on Hidden")}>
-                            <i className="file alternate outline icon"></i>
-                        </div>
-                    </div>
-                </div>
+                <button className="ui olive labeled icon button">
+                    <i className="tasks icon"></i>
+                    Compute CV Scores
+                </button>
+                <button className="ui olive right labeled icon button">
+                    <i className="chart bar icon"></i>
+                    Check most Similar CVs
+                </button>
                 <CandidateList />
             </div>
         );

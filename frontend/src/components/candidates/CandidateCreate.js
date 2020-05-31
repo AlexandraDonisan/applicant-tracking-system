@@ -47,7 +47,7 @@ class CandidateCreate extends Component {
                             {/*<input type="file" name="profile_image" accept="image/png, image/jpeg"*/}
                             {/*       onChange={event => {this.setState({profile_image: event.target.value[0]})}} />*/}
 
-                            <button className='ui primary button' onClick={this.fileUploadHandler}>Submit</button>
+                            <button className='ui olive button' onClick={this.fileUploadHandler}>Submit</button>
                         </div>
                     </div>
                 </div>

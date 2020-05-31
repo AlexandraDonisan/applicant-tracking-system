@@ -56,7 +56,7 @@ class LoginForm extends Component{
                 <div className='ui container' style={{ marginTop: '4rem'}}>
                     <div className="ui middle aligned center aligned grid">
                         <div className="column" style={{ maxWidth: 450 }}>
-                            <h2 className="ui teal center aligned header">
+                            <h2 className="ui olive center aligned header">
                                 {/*<img className="image" src="./static/images/logo.png"/>*/}
                                 Log-in to your account
                             </h2>
@@ -82,7 +82,7 @@ class LoginForm extends Component{
                                     {/*If the username and password do not match the information in the database, Django returns */}
                                     {/*Non-field errors. To render this error, we need to have a field named 'non_field_errors'.*/}
                                     {/*<div className="ui fluid large teal submit button">Login</div>*/}
-                                    <button className='ui fluid large teal submit button'>Login</button>
+                                    <button className='ui fluid large olive submit button'>Login</button>
                                 </div>
                                 <div className="ui error message"></div>
                             </form>

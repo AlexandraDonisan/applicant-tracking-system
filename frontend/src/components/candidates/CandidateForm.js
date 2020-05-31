@@ -28,7 +28,7 @@ class CandidateForm extends Component{
                   <Field name='name' component={this.renderField} label='Name' />
                   <Field name='email' component={this.renderField} label='E-mail' />
                   <Field name='hello_message' component={this.renderField} label='Hello' />
-                  <button className='ui primary button'>{btnText}</button>
+                  <button className='ui olive button'>{btnText}</button>
             </form>
           </div>
         );

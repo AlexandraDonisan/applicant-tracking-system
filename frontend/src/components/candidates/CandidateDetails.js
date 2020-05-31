@@ -17,31 +17,31 @@ class CandidateDetails extends Component {
                     <div role="list" className="ui divided inverted relaxed list">
                         <div role="listitem" className="item">
                             <div className="content">
-                                <div className="header">Name</div>
+                                <div className="ui olive header">Name</div>
                                 {this.props.candidate.name}
                             </div>
                         </div>
                         <div role="listitem" className="item">
                             <div className="content">
-                                <div className="header">Email</div>
+                                <div className="ui olive header">Email</div>
                                 {this.props.candidate.email}
                             </div>
                         </div>
                         <div role="listitem" className="item">
                             <div className="content">
-                                <div className="header">Hello Message</div>
+                                <div className="ui olive header">Hello Message</div>
                                 {this.props.candidate.hello_message}
                             </div>
                         </div>
                         <div role="listitem" className="item">
                             <div className="content">
-                                <div className="header">CV</div>
+                                <div className="ui olive header">CV</div>
                                 {this.props.candidate.cv}
                             </div>
                         </div>
                         <div role="listitem" className="item">
                             <div className="content">
-                                <div className="header">Score</div>
+                                <div className="ui olive header">Score</div>
                                 {
                                     this.props.candidate.score
                                 }
@@ -49,7 +49,7 @@ class CandidateDetails extends Component {
                         </div>
                         <div role="listitem" className="item">
                             <div className="content">
-                                <div className="header">Summarized CV</div>
+                                <div className="ui olive header">Summarized CV</div>
                                 {
                                     this.props.candidate.summarized_cv.split('\n').map(function(item) {
                                         return (<span>{item}<br/></span>)})
