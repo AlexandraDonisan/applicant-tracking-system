@@ -11,7 +11,7 @@ class CandidateList extends Component{
     render() {
     return (
       <div className='ui relaxed divided list' style={{ marginTop: '2rem' }}>
-        {this.props.candidates.sort((a,b) => a.score > b.score ? 1 : -1).map(candidate => (
+        {this.props.candidates.sort((a,b) => b.score - a.score).map(candidate => (
           <div className='item' key={candidate.id}>
                 <div className='right floated content'>
                   <Link to={`/delete/${candidate.id}`} className='small ui  red button'>Delete</Link>

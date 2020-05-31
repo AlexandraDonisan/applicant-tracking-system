@@ -6,7 +6,7 @@ import spacy
 from spacy.matcher import PhraseMatcher
 
 
-def get_pdf_content_tika(pdf_filename, save_path='../../cv/converted_cvs_to_txt'):
+def get_pdf_content_tika(pdf_filename, save_path='cv/converted_cvs_to_txt/cvs'):
     text_filename = os.path.join(save_path, pdf_filename.split("\\")[-1].split(".")[0] + ".txt")
     f = open(text_filename, "w", encoding='utf-8')
     parsed_pdf = parser.from_file(pdf_filename)
@@ -15,7 +15,7 @@ def get_pdf_content_tika(pdf_filename, save_path='../../cv/converted_cvs_to_txt'
     f.close()
 
 
-def get_word_content(word_filename, save_path='../../cv/converted_cvs_to_txt'):
+def get_word_content(word_filename, save_path='cv/converted_cvs_to_txt/cvs'):
     word_file_path = word_filename.replace("\\", "/")
     word_filename = word_file_path.split("/")[-1]
     text = str(textract.process(word_file_path)).replace("b\"", "").replace("b'", "").replace("\\n", " ").replace("\\t", " ")[:-1]
@@ -49,7 +49,7 @@ def get_json_content(filename_path):
     return all_skills
 
 
-def phrase_matcher(text=None, skills_path='../../cv/skills/cleaned_related_skills.json'):
+def phrase_matcher(text=None, skills_path='cv/skills/cleaned_related_skills.json'):
 
     nlp = spacy.load('en_core_web_sm')  # Language class with the English model 'en_core_web_sm' is loaded
     matcher = PhraseMatcher(nlp.vocab, attr='LOWER')  # create the PhraseMatcher object

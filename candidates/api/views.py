@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
+from django.http import HttpResponse
+import candidates.scanner.scan as scanner
 
 from .serializers import CandidateSerializer, KeywordsSerializer, JobSerializer
 from candidates.models import Candidate, Keywords, Job
@@ -25,6 +27,17 @@ class CandidateViewSet(viewsets.ModelViewSet):
     #     return Candidate.compute_score
 
 
+def compute_score_view(request):
+    # scanner.convert_documents_to_txt('media')
+    cvs_with_skills_and_score = scanner.get_skills_and_score_for_all_cvs('cv/converted_cvs_to_txt/cvs',
+                                                                         'cv/converted_cvs_to_txt/job_description'
+                                                                         '/job_description.txt')
+
+    for cv_name in cvs_with_skills_and_score:
+        name = cv_name.split('.')[0]
+        Candidate.objects.filter(cv__contains=name).update(score=cvs_with_skills_and_score[cv_name][2])
+    return HttpResponseRedirect("/")
+
 
 class KeywordsViewSet(viewsets.ModelViewSet):
     queryset = Keywords.objects.all()
@@ -34,4 +47,3 @@ class KeywordsViewSet(viewsets.ModelViewSet):
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-
