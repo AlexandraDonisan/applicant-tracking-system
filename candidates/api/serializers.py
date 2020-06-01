@@ -4,8 +4,8 @@ from candidates.models import Candidate, Keywords, Job
 
 class CandidateSerializer(serializers.ModelSerializer):
     # score = serializers.SerializerMethodField(method_name='compute_score')
-    summarized_cv = serializers.SerializerMethodField(method_name='summarize_cv')
-    is_summarized = True
+    # summarized_cv = serializers.SerializerMethodField(method_name='summarize_cv')
+    # is_summarized = True
 
     class Meta:
         model = Candidate

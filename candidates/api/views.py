@@ -29,14 +29,24 @@ class CandidateViewSet(viewsets.ModelViewSet):
 
 def compute_score_view(request):
     # scanner.convert_documents_to_txt('media')
-    cvs_with_skills_and_score = scanner.get_skills_and_score_for_all_cvs('cv/converted_cvs_to_txt/cvs',
-                                                                         'cv/converted_cvs_to_txt/job_description'
-                                                                         '/job_description.txt')
+    cvs_path = 'cv/converted_cvs_to_txt/cvs'
+    job_description_path = 'cv/converted_cvs_to_txt/job_description/job_description.txt'
+    cvs_with_skills_and_score = scanner.get_skills_and_score_for_all_cvs(cvs_path, job_description_path)
 
     for cv_name in cvs_with_skills_and_score:
         name = cv_name.split('.')[0]
         Candidate.objects.filter(cv__contains=name).update(score=cvs_with_skills_and_score[cv_name][2])
     return HttpResponseRedirect("/")
+
+
+def get_similar_cvs_view(request):
+    similarity_matrix, position_and_cv_name = scanner.compute_similarity_of_all_cvs('cv/converted_cvs_to_txt/cvs',
+                                                                                    'cv/converted_cvs_to_txt'
+                                                                                    '/job_description'
+                                                                                    '/job_description.txt')
+    top = scanner.get_top_similar_cvs(similarity_matrix, position_and_cv_name)
+
+
 
 
 class KeywordsViewSet(viewsets.ModelViewSet):

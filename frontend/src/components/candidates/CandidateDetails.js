@@ -51,8 +51,10 @@ class CandidateDetails extends Component {
                             <div className="content">
                                 <div className="ui olive header">Summarized CV</div>
                                 {
-                                    this.props.candidate.summarized_cv.split('\n').map(function(item) {
-                                        return (<span>{item}<br/></span>)})
+                                    this.props.candidate.summarized_cv ?
+                                        this.props.candidate.summarized_cv.split('\n').map(function (item) {
+                                            return (<span>{item}<br/></span> )
+                                        }) : null
                                 }
                             </div>
                         </div>
