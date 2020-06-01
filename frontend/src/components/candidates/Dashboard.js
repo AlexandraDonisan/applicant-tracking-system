@@ -4,6 +4,7 @@ import axios from 'axios';
 import CandidateCreate from "./CandidateCreate";
 import {Link} from "react-router-dom";
 import LoadingSpinner from "../common/LoadingSpinner";
+import {Button} from "semantic-ui-react";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -50,11 +51,12 @@ class Dashboard extends Component {
                     <i className="tasks icon"></i>
                     Compute CV Scores
                 </button>
-                <button className="ui olive right labeled icon button" onClick={this.checkMostSimilarHandler}>
-                    <i className="chart bar icon" ></i>
-                    Check most Similar CVs
-                </button>
-                {loading ? <LoadingSpinner /> : <CandidateList />}
+                    <Button as={Link} to="/similar/cvs" className="ui olive right labeled icon button"
+                            onClick={this.checkMostSimilarHandler}>
+                        <i className="chart bar icon" ></i>
+                        Check Most Similar CVs
+                    </Button>
+                    {loading ? <LoadingSpinner /> : <CandidateList />}
                 {/*<CandidateList />*/}
             </div>
         );

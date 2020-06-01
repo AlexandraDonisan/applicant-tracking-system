@@ -9,6 +9,11 @@ class CandidateDetails extends Component {
         this.props.getCandidate(this.props.match.params.id);
     }
 
+    seeCVHandler = param => e => {
+        console.log('tapped ' +  param.toString());
+        window.open(param, '_blank');
+    };
+
     render() {
         return (
             <div className='ui container'>
@@ -36,7 +41,9 @@ class CandidateDetails extends Component {
                         <div role="listitem" className="item">
                             <div className="content">
                                 <div className="ui olive header">CV</div>
-                                {this.props.candidate.cv}
+                                <i className='large file alternate middle aligned icon'
+                                   onClick={this.seeCVHandler(this.props.candidate.cv)}/>
+                                {/*{this.props.candidate.cv.filename}*/}
                             </div>
                         </div>
                         <div role="listitem" className="item">

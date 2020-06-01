@@ -17,7 +17,7 @@ class CandidateEdit extends Component{
         return (
           <div className='ui container'>
                 <h2 style={{ marginTop: '2rem' }}>Edit Candidate</h2>
-                <CandidateForm initialValues={ _.pick(this.props.candidate, ['name', 'email']) }
+                <CandidateForm initialValues={ _.pick(this.props.candidate, ['name', 'email', 'hello_message']) }
                                enableReinitialize={true} //set to true so that we can also get the value when the page is reloaded
                                onSubmit={this.onSubmit}/>
           </div>

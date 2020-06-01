@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -28,7 +30,11 @@ class CandidateViewSet(viewsets.ModelViewSet):
 
 
 def compute_score_view(request):
-    # scanner.convert_documents_to_txt('media')
+    start_time = datetime.datetime.now()
+    scanner.convert_documents_to_txt('media')
+    end_time = datetime.datetime.now()
+    print("The processing of converting cvs has taken {} seconds".format(end_time - start_time))
+
     cvs_path = 'cv/converted_cvs_to_txt/cvs'
     job_description_path = 'cv/converted_cvs_to_txt/job_description/job_description.txt'
     cvs_with_skills_and_score = scanner.get_skills_and_score_for_all_cvs(cvs_path, job_description_path)
@@ -45,8 +51,8 @@ def get_similar_cvs_view(request):
                                                                                     '/job_description'
                                                                                     '/job_description.txt')
     top = scanner.get_top_similar_cvs(similarity_matrix, position_and_cv_name)
-
-
+    import json
+    return HttpResponse(json.dumps(top))
 
 
 class KeywordsViewSet(viewsets.ModelViewSet):

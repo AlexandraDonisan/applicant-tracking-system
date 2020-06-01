@@ -2,11 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getCandidates, getCandidate, deleteCandidate } from "../../actions/candidates";
+import axios from 'axios';
 
 class CandidateList extends Component{
     componentDidMount() {
         this.props.getCandidates();
     }
+
+    seeCVHandler = param => e => {
+        console.log('tapped ' +  param.toString());
+        // window.open(param, '_blank');
+        window.location.href=param;
+    };
 
     render() {
     return (
@@ -22,7 +29,7 @@ class CandidateList extends Component{
               <div className='right floated content'>
                   <Link to={`/score/${candidate.id}/`} className='small ui  button'>Get Score</Link>
                 </div>
-            <i className='large file alternate middle aligned icon' />
+            <i className='large file alternate middle aligned icon' onClick={this.seeCVHandler(candidate.cv)}/>
             <div className='content'>
                 <Link to={`/details/${candidate.id}/`} className='header'>{candidate.name}</Link>
                 <div className='description'>{candidate.email}</div>

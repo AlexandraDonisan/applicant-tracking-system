@@ -26,7 +26,7 @@ const LoadingSpinner = () => (
             <div className='ui container' style={{ marginTop: '4rem'}}>
                 <div className="ui middle aligned center aligned grid">
                     <h3 className="ui olive center aligned header">
-                        The computation of scores is underway!
+                        Be Patient! Computation is underway!
                     </h3>
                 </div>
             </div>

@@ -16,6 +16,7 @@ import LoginForm from './auth/LoginForm'; //
 import PrivateRoute from './common/PrivateRoute';
 import { loadUser } from '../actions/auth';
 import RegisterForm from "./auth/RegisterForm";
+import SimilarCandidates from "./candidates/SimilarCandidates";
 
 
 class App extends Component{
@@ -38,6 +39,7 @@ class App extends Component{
                     <Route exact path='/edit/:id' component={CandidateEdit} />
                     <Route exact path='/delete/:id' component={CandidateDelete} />
                     <Route exact path='/score/:id' component={CandidateScore} />
+                    <Route exact path='/similar/cvs' component={SimilarCandidates} />
                 </Switch>
           </Router>
       </Provider>

@@ -1,5 +1,6 @@
 import os
 import textract
+import concurrent.futures
 from tika import parser
 import json
 import spacy
@@ -25,19 +26,36 @@ def get_word_content(word_filename, save_path='cv/converted_cvs_to_txt/cvs'):
     f.close()
 
 
+def convert_file(path):
+    """
+    Converts the file with the given path to .txt
+    :param path: Path to the documented that has to be converted
+    :return: -
+    """
+    cv_name = path.split("\\")[-1]
+    cv_type = cv_name.split(".")[-1]
+    if cv_type == "pdf":
+        get_pdf_content_tika(path)
+    if cv_type == "docx":
+        get_word_content(path)
+    if cv_type == "doc":
+        print("Doc format will not be processed!")
+
+
 def go_through_dir(root_dir):
+    """
+    Goes through all CVs in the given directory and splits the work to 5 threads resulting in the conversion them all
+    :param root_dir: Directory where all CVs are stored
+    :return: -
+    """
+    all_files = []
     for subdir, dirs, files in os.walk(root_dir):
         for file in files:
             path = os.path.join(subdir, file)
             print(path)
-            cv_name = path.split("\\")[-1]
-            cv_type = cv_name.split(".")[-1]
-            if cv_type == "pdf":
-                get_pdf_content_tika(path)
-            if cv_type == "docx":
-                get_word_content(path)
-            if cv_type == "doc":
-                print("Doc format will not be processed!")
+            all_files.append(path)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        map(lambda x: executor.submit(convert_file, x), all_files)
 
 
 def get_json_content(filename_path):

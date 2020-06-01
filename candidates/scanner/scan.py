@@ -106,7 +106,9 @@ def get_top_similar_cvs(similarities_matrix, cv_and_position, number=3):
     for n in range(number):
         index_cv_1 = values_and_indexes[top_n_most_similar[n]][0]
         index_cv_2 = values_and_indexes[top_n_most_similar[n]][1]
-        top[n] = [cv_and_position[index_cv_1], cv_and_position[index_cv_2], top_n_most_similar[n]]
+        percent = float("{:.2f}".format(top_n_most_similar[n]*100))
+        top[n] = [cv_and_position[index_cv_1].split('.')[0].replace('_', ' '),
+                  cv_and_position[index_cv_2].split('.')[0].replace('_', ' '), str(percent)+"%"]
 
     return top
 
@@ -114,7 +116,7 @@ def get_top_similar_cvs(similarities_matrix, cv_and_position, number=3):
 def get_skill_and_frequency(matched_skills):
     """
     :param matched_skills: list of skills that are found both in the CV and Job Description
-    :return: dict having as key teh skill name and as value the number of occurances
+    :return: dict having as key teh skill name and as value the number of occurrences
     """
     skill_and_frequency_dict = {}
     for skill in matched_skills:
@@ -168,6 +170,14 @@ def compute_cv_score(common_skills, keywords=None, default_score=None):
     return final_score
 
 
+def for_threads(path):
+    with open(path, 'r', errors='ignore') as cv_file:
+        cv = cv_file.read()
+    cv_name = cv_file.name.split("\\")[-1]
+    cv_skills = get_skill_and_frequency(utils.phrase_matcher(cv))
+    return cv_skills, cv_name
+
+
 def get_skills_and_score_for_all_cvs(root_dir, job_description_file_dir):
     """
     :param root_dir: Directory where all the CVs in .txt format are placed
@@ -180,21 +190,27 @@ def get_skills_and_score_for_all_cvs(root_dir, job_description_file_dir):
     start_time = datetime.datetime.now()
     job_skills = get_skill_and_frequency(utils.phrase_matcher(job_description))
     cvs_with_skills_and_score = {}
+    to_be_computed_files = []
 
     no_of_cvs = 0
     for subdir, dirs, files in os.walk(root_dir):
         for file in files:
             path = os.path.join(subdir, file)
-            with open(path, 'r', errors='ignore') as cv_file:
-                no_of_cvs += 1
-                cv = cv_file.read()
-                cv_name = path.split("\\")[-1]
-                cv_skills = get_skill_and_frequency(utils.phrase_matcher(cv))
-                common_skills = get_matching_skills(job_skills, cv_skills)
-                missing_skills = get_missing_skills(job_skills, cv_skills)
-                score = compute_cv_score(common_skills)
-                print("SCORE FOR CV {} IS: {} \n".format(cv_name, score))
-                cvs_with_skills_and_score[cv_name] = [common_skills, missing_skills, score]
+            no_of_cvs += 1
+            to_be_computed_files.append(path)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        result_futures = list(map(lambda x: executor.submit(for_threads, x), to_be_computed_files))
+        results = [f.result() for f in concurrent.futures.as_completed(result_futures)]
+
+    for result in results:
+        cv_skills = result[0]
+        cv_name = result[1]
+        common_skills = get_matching_skills(job_skills, cv_skills)
+        missing_skills = get_missing_skills(job_skills, cv_skills)
+        score = compute_cv_score(common_skills)
+        print("SCORE FOR CV {} IS: {} \n".format(cv_name, score))
+        cvs_with_skills_and_score[cv_name] = [common_skills, missing_skills, score]
 
     end_time = datetime.datetime.now()
 
