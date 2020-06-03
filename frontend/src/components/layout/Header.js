@@ -10,6 +10,7 @@ class Header extends Component {
       const userLinks = (
           <div className='right menu'>
           <Link className='item' to="/">Home</Link>
+          <Link className='item' to="/job/">Job</Link>
           <Link className='item' to="/new/">Create Candidate</Link>
             <div className='ui simple dropdown item'>
               {user ? user.username : ''}

@@ -146,19 +146,22 @@ def save_model(nlp):
     return model_file
 
 
-def summarize_text(text, cv_name=None, save_path='cv/summarized_cvs_with_spacy', model_name="cv_tagger"):
+def summarize_text(filename, save_path='cv/summarized_cvs_with_spacy', model_name="cv_tagger"):
     # test the model and evaluate it
+    # print('{} file is being processed'.format(filename))
+    with open(filename, 'r', encoding='utf-8') as F:
+        text = F.read()
+    cv_name = filename.split('\\')[-1].split('.')[0]
     nlp = spacy.load(model_name)
     resume_number = 0
 
     if cv_name:
         cv_name = cv_name.split("\\")[-1]
-        text_filename = os.path.join(save_path, cv_name + "Summarized" + ".txt")
+        text_filename = os.path.join(save_path, cv_name + "_Summarized" + ".txt")
     else:
         text_filename = os.path.join(save_path, "resume" + str(resume_number) + ".txt")
 
     write_summarized_doc_to_file(text_filename, nlp, text)
-    return text_filename
 
 
 def main_train():
@@ -175,9 +178,8 @@ def main():
         model_file = main_train()
         print("The model {} has been saved!".format(model_file))
     else:
-        with open('../../cv/converted_cvs_to_txt/cvs/Andy Li Shuoyan.txt', 'r') as F:
-            text = F.read()
-        summarize_text(text, 'Andy')
+        filename = 'cv/converted_cvs_to_txt/cvs/Andy Li Shuoyan.txt'
+        summarize_text(filename)
 
 
 # main()

@@ -24,16 +24,18 @@ class CandidateCreate extends Component {
                     <h2 style={{ marginTop: '2rem' }}>Create Candidate</h2>
                     <div className='ui segment'>
                         <div className='ui form error'>
-                            <div className="field">
-                                <label>Email:</label>
-                                <input type="text" name="email" placeholder="Email"
-                                       onChange={event => {this.setState({email: event.target.value})}} />
-                            </div>
                             <div className='field'>
                                 <label>Name:</label>
                                 <input type="text" name="name" placeholder="Name"
                                        onChange={event => {this.setState({name: event.target.value})}} />
                             </div>
+
+                            <div className="field">
+                                <label>Email:</label>
+                                <input type="text" name="email" placeholder="Email"
+                                       onChange={event => {this.setState({email: event.target.value})}} />
+                            </div>
+
                             {/*<div className='field'>*/}
                             {/*    <label>Short Hello Message:</label>*/}
                             {/*    <input type="text" name="hello_message" placeholder="Hello Message"*/}

@@ -5,6 +5,7 @@ from tika import parser
 import json
 import spacy
 from spacy.matcher import PhraseMatcher
+from candidates.scanner.train_spacy_ner import summarize_text
 
 
 def get_pdf_content_tika(pdf_filename, save_path='cv/converted_cvs_to_txt/cvs'):
@@ -56,6 +57,18 @@ def go_through_dir(root_dir):
             all_files.append(path)
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         map(lambda x: executor.submit(convert_file, x), all_files)
+
+
+def go_through_dir_and_summarize(root_dir):
+    all_files = []
+    for subdir, dirs, files in os.walk(root_dir):
+        for file in files:
+            path = os.path.join(subdir, file)
+            all_files.append(path)
+            # summarize_text(path)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        result_futures = list(map(lambda x: executor.submit(summarize_text, x), all_files))
+        results = [f.result() for f in concurrent.futures.as_completed(result_futures)]
 
 
 def get_json_content(filename_path):
