@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import CandidateList from "./CandidateList";
 import axios from 'axios';
-import CandidateCreate from "./CandidateCreate";
 import {Link} from "react-router-dom";
 import LoadingSpinner from "../common/LoadingSpinner";
 import {Button} from "semantic-ui-react";

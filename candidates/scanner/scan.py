@@ -182,7 +182,7 @@ def get_skills_and_score_for_all_cvs(root_dir, job_description_file_dir):
     """
     :param root_dir: Directory where all the CVs in .txt format are placed
     :param job_description_file_dir: the path to the Job description .txt file, including its name.txt
-    :return: dict having as key the CV name and as value [[common_skills], [missing_skills], score]
+    :return: dict having as key the CV name and as value {'cv_name': [[common_skills], [missing_skills], score]}
     """
     with open(job_description_file_dir, 'r') as F:
         job_description = F.read()
@@ -210,7 +210,9 @@ def get_skills_and_score_for_all_cvs(root_dir, job_description_file_dir):
         missing_skills = get_missing_skills(job_skills, cv_skills)
         score = compute_cv_score(common_skills)
         print("SCORE FOR CV {} IS: {} \n".format(cv_name, score))
-        cvs_with_skills_and_score[cv_name] = [common_skills, missing_skills, score]
+        string_common_skills = " ".join(common_skills)
+        string_missing_skills = " ".join(missing_skills)
+        cvs_with_skills_and_score[cv_name] = [string_common_skills, string_missing_skills, score]
 
     end_time = datetime.datetime.now()
 

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'knox',
     'frontend.apps.FrontendConfig',
     'candidates.apps.CandidatesConfig',
+    'jobs.apps.JobsConfig',
     'accounts.apps.AccountsConfig',
     'django_extensions'
 

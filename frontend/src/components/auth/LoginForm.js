@@ -52,7 +52,8 @@ class LoginForm extends Component{
             //     </p>
             //   </div>
             // </div>
-            <div className="ui inverted vertical segment landpage-image">
+            // <div className="ui inverted vertical segment landpage-image">
+            <div className="ui inverted vertical segment">
                 <div className='ui container' style={{ marginTop: '4rem'}}>
                     <div className="ui middle aligned center aligned grid">
                         <div className="column" style={{ maxWidth: 450 }}>

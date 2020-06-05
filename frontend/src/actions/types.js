@@ -13,3 +13,12 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+
+export const GET_KEYWORDS = 'GET_KEYWORDS';
+export const GET_KEYWORD = 'GET_KEYWORD';
+export const ADD_KEYWORD = 'ADD_KEYWORD';
+export const DELETE_KEYWORD = 'DELETE_KEYWORD';
+export const EDIT_KEYWORD = 'EDIT_KEYWORD';
+
+export const GET_JOBS = 'GET_JOBS';
+export const ADD_JOB = 'ADD_JOB';

@@ -3,6 +3,7 @@
 import { combineReducers } from "redux";
 import { reducer as formReducer } from 'redux-form'
 import candidates from './candidates';
+import keywords from './keywords';
 import auth from './auth';
 import { LOGOUT_SUCCESS } from '../actions/types';
 
@@ -15,6 +16,7 @@ import { LOGOUT_SUCCESS } from '../actions/types';
 const appReducer = combineReducers({
   form: formReducer,
   candidates,
+  keywords,
   auth
 });
 

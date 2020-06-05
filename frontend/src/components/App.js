@@ -11,12 +11,15 @@ import CandidateCreate from "./candidates/CandidateCreate";
 import CandidateDelete from "./candidates/CandidateDelete";
 import CandidateEdit from "./candidates/CandidateEdit";
 import CandidateDetails from "./candidates/CandidateDetails"
-import CandidateScore from "./candidates/CandidateScore";
+import CandidateSkills from "./candidates/CandidateSkills";
 import LoginForm from './auth/LoginForm'; //
 import PrivateRoute from './common/PrivateRoute';
 import { loadUser } from '../actions/auth';
 import RegisterForm from "./auth/RegisterForm";
 import SimilarCandidates from "./candidates/SimilarCandidates";
+import JobDashboard from "./job/JobDashboard";
+import KeywordsDelete from "./job/KeywordsDelete";
+import KeywordsEdit from "./job/KeywordsEdit";
 
 
 class App extends Component{
@@ -38,8 +41,11 @@ class App extends Component{
                     <Route exact path='/details/:id' component={CandidateDetails} />
                     <Route exact path='/edit/:id' component={CandidateEdit} />
                     <Route exact path='/delete/:id' component={CandidateDelete} />
-                    <Route exact path='/score/:id' component={CandidateScore} />
+                    <Route exact path='/skills/:id' component={CandidateSkills} />
                     <Route exact path='/similar/cvs' component={SimilarCandidates} />
+                    <Route exact path='/job/' component={JobDashboard} />
+                    <Route exact path='/delete/keyword/:id' component={KeywordsDelete} />
+                    <Route exact path='/edit/keyword/:id' component={KeywordsEdit} />
                 </Switch>
           </Router>
       </Provider>

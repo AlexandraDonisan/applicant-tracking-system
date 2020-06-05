@@ -11,8 +11,8 @@ class CandidateList extends Component{
 
     seeCVHandler = param => e => {
         console.log('tapped ' +  param.toString());
-        // window.open(param, '_blank');
-        window.location.href=param;
+        window.open(param, '_blank');
+        // window.location.href=param;
     };
 
     render() {
@@ -27,7 +27,7 @@ class CandidateList extends Component{
                   <Link to={`/edit/${candidate.id}/`} className='small ui olive button'>Edit</Link>
                 </div>
               <div className='right floated content'>
-                  <Link to={`/score/${candidate.id}/`} className='small ui  button'>Get Score</Link>
+                  <Link to={`/skills/${candidate.id}/`} className='small ui  button'>Get Skills</Link>
                 </div>
             <i className='large file alternate middle aligned icon' onClick={this.seeCVHandler(candidate.cv)}/>
             <div className='content'>

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-import os
 import candidates.scanner.train_spacy_ner as cv_tagger
+import os
 
 
 def get_image_path(instance, filename):
@@ -17,16 +17,14 @@ class Candidate(models.Model):
     cv = models.FileField(blank=True, null=True, default=None)
     profile_image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
     score = models.IntegerField(null=True)
+    is_score_computed = models.BooleanField(default=False)
     is_summarized = models.BooleanField(default=False)
     summarized_cv = models.TextField(blank=True, null=True)
+    matching_skills = models.TextField(blank=True, null=True)
+    missing_skills = models.TextField(blank=True, null=True)
     # blank=True => default value to 0, that's why we use null; it makes it  clear that the score is unknown
     owner = models.ForeignKey(
         User, related_name="candidates", on_delete=models.CASCADE, null=True)
-
-    def compute_score(self):
-        if self.score is None:
-            self.score = 100
-        return 200
 
     def summarize_cv(self):
         if self.cv and self.is_summarized is False:
@@ -39,18 +37,4 @@ class Candidate(models.Model):
         return None
 
     def __str__(self):
-
         return "{}: Candidate named {}".format(self.id, self.name)
-
-
-class Keywords(models.Model):
-    id = models.AutoField(primary_key=True)
-    word = models.CharField(max_length=200)
-    weight = models.IntegerField(null=True)
-
-
-class Job(models.Model):
-    id = models.AutoField(primary_key=True)
-    job_description = models.FileField(blank=True, null=True, default=None, upload_to='./media/job_description')
-    keywords = models.ForeignKey(
-        Keywords, related_name="keywords", on_delete=models.CASCADE, null=True)

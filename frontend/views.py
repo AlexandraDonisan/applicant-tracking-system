@@ -4,6 +4,8 @@ from rest_framework.generics import CreateAPIView
 
 from candidates.api.serializers import CandidateSerializer
 from candidates.models import Candidate
+from jobs.api.serializers import JobSerializer, KeywordsSerializer
+from jobs.models import Job, Keywords
 
 
 def index(requests):
@@ -20,3 +22,21 @@ class CandidateCreate(CreateAPIView):
     template_name = 'frontend/index.html'
 
 
+class JobDetailView(DetailView):
+    model = Job
+    template_name = 'frontend/index.html'
+
+
+class JobCreate(CreateAPIView):
+    serializer_class = JobSerializer
+    template_name = 'frontend/index.html'
+
+
+class KeywordsDetailView(DetailView):
+    model = Keywords
+    template_name = 'frontend/index.html'
+
+
+class KeywordsCreate(CreateAPIView):
+    serializer_class = KeywordsSerializer
+    template_name = 'frontend/index.html'
