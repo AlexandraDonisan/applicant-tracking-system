@@ -106,9 +106,9 @@ def get_top_similar_cvs(similarities_matrix, cv_and_position, number=3):
     for n in range(number):
         index_cv_1 = values_and_indexes[top_n_most_similar[n]][0]
         index_cv_2 = values_and_indexes[top_n_most_similar[n]][1]
-        percent = float("{:.2f}".format(top_n_most_similar[n]*100))
+        percent = float("{:.2f}".format(top_n_most_similar[n] * 100))
         top[n] = [cv_and_position[index_cv_1].split('.')[0].replace('_', ' '),
-                  cv_and_position[index_cv_2].split('.')[0].replace('_', ' '), str(percent)+"%"]
+                  cv_and_position[index_cv_2].split('.')[0].replace('_', ' '), str(percent) + "%"]
 
     return top
 
@@ -153,7 +153,7 @@ def get_missing_skills(job_skills, cv_skills):
     return missing_skills
 
 
-def compute_cv_score(common_skills, keywords=None, default_score=None):
+def compute_cv_score(common_skills, keywords, default_score):
     """
     :param common_skills: list of skills that are found both in  CV and the Job Description
     :param keywords: dict having as key a keyword and as value its weight/score
@@ -162,8 +162,8 @@ def compute_cv_score(common_skills, keywords=None, default_score=None):
     :return: the sum of the scores for each word/skill
     """
     # TODO: Remove hardcoded keywords and default score
-    keywords = {'accounting': 100, 'audit': 80, 'control': 60, 'excel': 95}
-    default_score = 30
+    # keywords = {'accounting': 100, 'audit': 80, 'control': 60, 'excel': 95}
+    # default_score = 30
     final_score = 0
     for skill in common_skills:
         final_score = final_score + keywords[skill] if skill in keywords.keys() else final_score + default_score
@@ -178,7 +178,18 @@ def for_threads(path):
     return cv_skills, cv_name
 
 
-def get_skills_and_score_for_all_cvs(root_dir, job_description_file_dir):
+def get_results(job_skills, cv_skills, keywords, default_score):
+    common_skills = get_matching_skills(job_skills, cv_skills)
+    missing_skills = get_missing_skills(job_skills, cv_skills)
+    score = compute_cv_score(common_skills, keywords, default_score)
+
+    string_common_skills = " ".join(common_skills)
+    string_missing_skills = " ".join(missing_skills)
+
+    return score, string_common_skills, string_missing_skills
+
+
+def get_skills_and_score_for_all_cvs(root_dir, job_description_file_dir, keywords, default_score):
     """
     :param root_dir: Directory where all the CVs in .txt format are placed
     :param job_description_file_dir: the path to the Job description .txt file, including its name.txt
@@ -187,17 +198,9 @@ def get_skills_and_score_for_all_cvs(root_dir, job_description_file_dir):
     with open(job_description_file_dir, 'r') as F:
         job_description = F.read()
 
-    start_time = datetime.datetime.now()
     job_skills = get_skill_and_frequency(utils.phrase_matcher(job_description))
     cvs_with_skills_and_score = {}
-    to_be_computed_files = []
-
-    no_of_cvs = 0
-    for subdir, dirs, files in os.walk(root_dir):
-        for file in files:
-            path = os.path.join(subdir, file)
-            no_of_cvs += 1
-            to_be_computed_files.append(path)
+    to_be_computed_files = utils.list_all_files_from_dir(root_dir)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         result_futures = list(map(lambda x: executor.submit(for_threads, x), to_be_computed_files))
@@ -206,17 +209,31 @@ def get_skills_and_score_for_all_cvs(root_dir, job_description_file_dir):
     for result in results:
         cv_skills = result[0]
         cv_name = result[1]
-        common_skills = get_matching_skills(job_skills, cv_skills)
-        missing_skills = get_missing_skills(job_skills, cv_skills)
-        score = compute_cv_score(common_skills)
+        score, string_common_skills, string_missing_skills = get_results(job_skills, cv_skills, keywords, default_score)
         print("SCORE FOR CV {} IS: {} \n".format(cv_name, score))
-        string_common_skills = " ".join(common_skills)
-        string_missing_skills = " ".join(missing_skills)
         cvs_with_skills_and_score[cv_name] = [string_common_skills, string_missing_skills, score]
 
-    end_time = datetime.datetime.now()
-
-    print("The processing of {} cvs has taken {} seconds".format(no_of_cvs, end_time - start_time))
     return cvs_with_skills_and_score
 
 
+def get_skill_and_score_for_one_cv(cv_file_dir, job_description_file_dir,  keywords, default_score):
+    with open(job_description_file_dir, 'r') as F:
+        job_description = F.read()
+
+    with open(cv_file_dir, 'r') as F:
+        cv = F.read()
+
+    job_skills = get_skill_and_frequency(utils.phrase_matcher(job_description))
+    cv_skills = get_skill_and_frequency(utils.phrase_matcher(cv))
+    if "\\" in cv_file_dir:
+        cv_name = cv_file_dir.split("\\")[-1].split('.')[0]
+    else:
+        cv_name = cv_file_dir.split("/")[-1].split('.')[0]
+    cv_with_skills_and_score = {}
+
+    score, string_common_skills, string_missing_skills = get_results(job_skills, cv_skills, keywords, default_score)
+    print("SCORE FOR CV {} IS: {} \n".format(cv_name, score))
+
+    cv_with_skills_and_score[cv_name] = [string_common_skills, string_missing_skills, score]
+
+    return cv_with_skills_and_score

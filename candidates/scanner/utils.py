@@ -27,6 +27,17 @@ def get_word_content(word_filename, save_path='cv/converted_cvs_to_txt/cvs'):
     f.close()
 
 
+def list_all_files_from_dir(root_dir):
+    all_files = []
+
+    for subdir, dirs, files in os.walk(root_dir):
+        for file in files:
+            path = os.path.join(subdir, file)
+            all_files.append(path)
+
+    return all_files
+
+
 def convert_file(path):
     """
     Converts the file with the given path to .txt
@@ -34,6 +45,7 @@ def convert_file(path):
     :return: -
     """
     cv_name = path.split("\\")[-1]
+    print("CV name in convert: {}".format(cv_name))
     cv_type = cv_name.split(".")[-1]
     if cv_type == "pdf":
         get_pdf_content_tika(path)
@@ -55,17 +67,15 @@ def go_through_dir(root_dir):
             path = os.path.join(subdir, file)
             print(path)
             all_files.append(path)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        map(lambda x: executor.submit(convert_file, x), all_files)
+            convert_file(path)
+    # with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    #     result_futures = list(map(lambda x: executor.submit(convert_file, x), all_files))
+    #     results = [f.result() for f in concurrent.futures.as_completed(result_futures)]
 
 
 def go_through_dir_and_summarize(root_dir):
-    all_files = []
-    for subdir, dirs, files in os.walk(root_dir):
-        for file in files:
-            path = os.path.join(subdir, file)
-            all_files.append(path)
-            # summarize_text(path)
+    all_files = list_all_files_from_dir(root_dir)
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         result_futures = list(map(lambda x: executor.submit(summarize_text, x), all_files))
         results = [f.result() for f in concurrent.futures.as_completed(result_futures)]
@@ -88,7 +98,7 @@ def phrase_matcher(text=None, skills_path='cv/skills/cleaned_related_skills.json
 
     all_skills = get_json_content(skills_path)
     for skill in all_skills:
-        terminology_list.append(skill['name'])  # the list containing the pharses to be matched
+        terminology_list.append(skill['name'])  # the list containing the phrases to be matched
 
     # convert the phrases into document object using nlp.make_doc to #speed up.
     patterns = [nlp.make_doc(text) for text in terminology_list]

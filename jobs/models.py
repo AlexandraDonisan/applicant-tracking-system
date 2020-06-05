@@ -4,6 +4,7 @@ from django.db import models
 class Job(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
+    default_score = models.IntegerField(default=30, blank=True)
     job_description = models.FileField(blank=True, null=True, default=None, upload_to='./media/job_description')
 
     def __str__(self):
