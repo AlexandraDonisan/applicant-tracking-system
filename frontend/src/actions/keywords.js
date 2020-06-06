@@ -31,7 +31,7 @@ export const getKeyword = id => async (dispatch, getState) => {
 };
 
 export const getJobs = () => async (dispatch, getState) => {
-    const res = await axios.get('/api/application/jobs/', tokenConfig(getState));
+    const res = await axios.get('/api/application/job/', tokenConfig(getState));
     dispatch({
         type: GET_JOBS,
         payload: res.data

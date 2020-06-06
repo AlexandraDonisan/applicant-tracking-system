@@ -15,13 +15,14 @@ import candidates.scanner.utils as utils
 lemmer = nltk.stem.WordNetLemmatizer()
 
 
-def convert_documents_to_txt(path):
+def convert_documents_to_txt(path, save_path='cv/converted_cvs_to_txt/cvs'):
     """
     :param path: Path where the document in format .pdf or .docx are placed
                 e.g r"LICENCE/TrainSpacyNER/job_description"
+    :param save_path: The path where the converted file will be saved
     :return: Convert all documents found in the path into .txt and add them into a common directory
     """
-    utils.go_through_dir(path)
+    utils.go_through_dir(path, save_path)
 
 
 def clean_document(doc):

@@ -14,7 +14,7 @@ class Candidate(models.Model):
     email = models.CharField(max_length=200, unique=True)
     hello_message = models.CharField(max_length=200, blank=True)
     application_date = models.DateTimeField(auto_now_add=True)
-    cv = models.FileField(blank=True, null=True, default=None)
+    cv = models.FileField(blank=True, null=True, default=None, upload_to='./cvs')
     profile_image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
     score = models.IntegerField(null=True)
     is_score_computed = models.BooleanField(default=False)

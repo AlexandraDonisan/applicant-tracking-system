@@ -23,9 +23,9 @@ class KeywordsForm extends Component {
     return (
       <div className='ui segment'>
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-          <Field name='word' component={this.renderField} label='Word' />
-          <Field name='weight' component={this.renderField} label='Weight' />
-          <Field name='job' component={this.renderField} label='Job Id' />
+          <Field name='word'  component={this.renderField} label='Word' placeholder="Word"/>
+          <Field name='weight' component={this.renderField} label='Weight' placeholder="Weight"/>
+          <Field name='job' component={this.renderField} label='Job Id' placeholder="Job Id" />
           <button className='ui olive button'>{btnText}</button>
         </form>
       </div>

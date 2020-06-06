@@ -60,7 +60,7 @@ class Dashboard extends Component {
             <div className='ui container'>
                 <button className="ui olive labeled icon button" onClick={this.computeScoreHandler}>
                     <i className="tasks icon"></i>
-                    Compute CV Scores
+                    Compute Score for all CVs
                 </button>
                     <Button as={Link} to="/similar/cvs" className="ui olive labeled icon button"
                             onClick={this.checkMostSimilarHandler}>

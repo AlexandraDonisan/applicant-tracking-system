@@ -38,27 +38,29 @@ def list_all_files_from_dir(root_dir):
     return all_files
 
 
-def convert_file(path):
+def convert_file(path, save_path='cv/converted_cvs_to_txt/cvs'):
     """
     Converts the file with the given path to .txt
+    :param save_path: The location where the converted document will be saved
     :param path: Path to the documented that has to be converted
     :return: -
     """
     cv_name = path.split("\\")[-1]
-    print("CV name in convert: {}".format(cv_name))
+    # print("CV name in convert: {}".format(cv_name))
     cv_type = cv_name.split(".")[-1]
     if cv_type == "pdf":
-        get_pdf_content_tika(path)
+        get_pdf_content_tika(path, save_path)
     if cv_type == "docx":
-        get_word_content(path)
+        get_word_content(path, save_path)
     if cv_type == "doc":
         print("Doc format will not be processed!")
 
 
-def go_through_dir(root_dir):
+def go_through_dir(root_dir, save_path='cv/converted_cvs_to_txt/cvs'):
     """
     Goes through all CVs in the given directory and splits the work to 5 threads resulting in the conversion them all
     :param root_dir: Directory where all CVs are stored
+    :param save_path: The location where the converted document will be saved
     :return: -
     """
     all_files = []
@@ -67,7 +69,7 @@ def go_through_dir(root_dir):
             path = os.path.join(subdir, file)
             print(path)
             all_files.append(path)
-            convert_file(path)
+            convert_file(path, save_path)
     # with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
     #     result_futures = list(map(lambda x: executor.submit(convert_file, x), all_files))
     #     results = [f.result() for f in concurrent.futures.as_completed(result_futures)]

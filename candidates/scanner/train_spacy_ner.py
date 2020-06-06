@@ -100,7 +100,7 @@ def train_spacy(train_data, test_data, model="en_core_web_sm", iterations=20):
     return nlp
 
 
-def test_spacy(test_data, nlp, save_path='../../cv/summerized_cvs_with_spacy'):
+def test_spacy(test_data, nlp, save_path='cv/summerized_cvs_with_spacy'):
     # test the model and evaluate it
     resume_number = 0
 

@@ -12,13 +12,13 @@ import _ from "lodash";
 
 export default (state = {}, action) => {
   switch (action.type) {
+      case GET_JOBS:
       case GET_KEYWORDS:
           return {
             ...state,
             ..._.mapKeys(action.payload, 'id')
           };
       case GET_KEYWORD:
-      case GET_JOBS:
       case ADD_JOB:
       case ADD_KEYWORD:
           return {

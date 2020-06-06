@@ -44,7 +44,7 @@ def compute_score_at_addition(cv_name):
 
     name_of_cv = cv_name.replace(' ', '_')
     name_without_termination = name_of_cv.split('.')[0]
-    cv_root = 'media\\' + name_of_cv  # TODO CV ROOT, might be changed
+    cv_root = 'media/cvs\\' + name_of_cv  # TODO CV ROOT, might be changed
     utils.convert_file(cv_root)
 
     cv_path = 'cv/converted_cvs_to_txt/cvs\\' + name_without_termination + '.txt'
@@ -77,7 +77,8 @@ def compute_score_view(request):
     Compute Score for all CVS found in cvs_path
     """
     start_time = datetime.datetime.now()
-    scanner.convert_documents_to_txt('media')
+    scanner.convert_documents_to_txt('media/cvs')
+    scanner.convert_documents_to_txt('media/job_description', 'cv/converted_cvs_to_txt/job_description')
     end_time = datetime.datetime.now()
     print("The processing of converting cvs has taken {} seconds".format(end_time - start_time))
 
