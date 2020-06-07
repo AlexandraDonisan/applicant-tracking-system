@@ -13,6 +13,7 @@ const initialState = {
   isLoading: false,
   isAuthenticated: null,
   user: null,
+  is_super_user: false,
   token: localStorage.getItem('token') // Tokens are stored in a web browser using the localStorage property.
 };
 
@@ -28,15 +29,18 @@ export default function(state = initialState, action) {
         ...state,
         isLoading: false,
         isAuthenticated: true,
-        user: action.payload
+        user: action.payload,
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
+      console.log("PAYLOAD: " + JSON.stringify(action.payload));
+      console.log("super user : " + action.payload.is_super_user);
       localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         isLoading: false,
         isAuthenticated: true,
+        is_super_user: action.payload.is_super_user,
         ...action.payload
       };
     case AUTH_ERROR:

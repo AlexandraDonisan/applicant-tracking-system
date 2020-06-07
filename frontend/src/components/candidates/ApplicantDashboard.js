@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import {Field} from "redux-form";
-import {addCandidate} from "../../actions/candidates";
+import axios from "axios";
+import {Link} from "react-router-dom";
+import {Button} from "semantic-ui-react";
 
-class CandidateCreate extends Component {
-    fileUploadHandler = () => {
+class ApplicantDashboard extends Component{
+
+    applicationHandler = () => {
         const fd = new FormData();
-        fd.append('email', this.state.email);
         fd.append('name', this.state.name);
+        fd.append('email', this.state.email);
         fd.append('hello_message', this.state.hello_message);
         fd.append('cv', this.state.selectedFile, this.state.selectedFile.name);
         // fd.append('profile_image', this.state.profile_image);
@@ -17,10 +18,27 @@ class CandidateCreate extends Component {
             })
     };
 
+    checkMostSimilarHandler = () => {
+        this.setState({ loading: true }, () => {
+            axios.get('http://127.0.0.1:8000/api/candidate/get_similar_cvs/')
+                .then(result => this.setState({
+                    loading: false,
+                }))
+                .catch((res) => {
+                    console.log(res);
+                })
+        })
+    };
+
     render() {
         return (
             <div className="App">
                 <div className='ui container'>
+                    <Button as={Link} to="/similar/cvs" className="ui olive labeled icon button"
+                            onClick={this.checkMostSimilarHandler}>
+                        <i className="chart bar icon" ></i>
+                        Check Most Similar CVs
+                    </Button>
                     <h2 style={{ marginTop: '2rem' }}>Create Candidate</h2>
                     <div className='ui segment'>
                         <div className='ui form error'>
@@ -37,17 +55,25 @@ class CandidateCreate extends Component {
                             </div>
 
                             <div className='field'>
+                                <label>Short Hello Message:</label>
+                                <input type="text" name="hello_message" placeholder="Hello Message"
+                                       onChange={event => {this.setState({hello_message: event.target.value})}} />
+                            </div>
+                            <div className='field'>
                                 <label>Upload CV:</label>
                                 <input type="file" onChange={event => {this.setState({selectedFile: event.target.files[0]})}} />
                             </div>
-                            <button className='ui olive button' onClick={this.fileUploadHandler}>Submit</button>
+                            {/*<label>Upload Photo(NOT MANDATORY):</label>*/}
+                            {/*<input type="file" name="profile_image" accept="image/png, image/jpeg"*/}
+                            {/*       onChange={event => {this.setState({profile_image: event.target.value[0]})}} />*/}
+
+                            <button className='ui olive button' onClick={this.applicationHandler}>Submit</button>
                         </div>
                     </div>
                 </div>
             </div>
         );
     }
-
 }
 
-export default CandidateCreate
+export default ApplicantDashboard

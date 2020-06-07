@@ -1,6 +1,7 @@
 import datetime
 import os
 import json
+from functools import wraps
 
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -12,11 +13,21 @@ import candidates.scanner.train_spacy_ner as spacy_model
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
-from django.shortcuts import redirect
 
 from .serializers import CandidateSerializer
 from candidates.models import Candidate
 from jobs.models import Keywords, Job
+
+
+def permission_required(permission):
+    def _permission_required(func):
+        @wraps(func)
+        def wrapper(self, request, *args, **kwargs):
+            if not request.user.has_perm(permission):
+                return Response(status=401)
+            return func(self, request, *args, **kwargs)
+        return wrapper
+    return _permission_required
 
 
 class CandidateViewSet(viewsets.ModelViewSet):
@@ -33,6 +44,12 @@ class CandidateViewSet(viewsets.ModelViewSet):
         compute_score_at_addition(name_of_cv)
         # The serializer will now have the 'owner' field by overriding the perform_create()
 
+    # @permission_required('candidates.delete_candidate')
+    # def destroy(self, request, *args, **kwargs):
+    #     if not request.user.has_perm('candidates.delete_candidate'):
+    #         return Response(status=401)
+    #     return super().destroy(request, *args, **kwargs)
+
 
 def compute_score_at_addition(cv_name):
     """
@@ -44,7 +61,7 @@ def compute_score_at_addition(cv_name):
 
     name_of_cv = cv_name.replace(' ', '_')
     name_without_termination = name_of_cv.split('.')[0]
-    cv_root = 'media/cvs\\' + name_of_cv  # TODO CV ROOT, might be changed
+    cv_root = 'media/cvs\\' + name_of_cv
     utils.convert_file(cv_root)
 
     cv_path = 'cv/converted_cvs_to_txt/cvs\\' + name_without_termination + '.txt'
@@ -149,7 +166,7 @@ def get_keywords_dict():
 @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
 def get_matching_skills(request, id):
     candidate = Candidate.objects.get(id=id)
-    dictionary_of_skills = {'skills': candidate.matching_skills.split(' ')}
+    dictionary_of_skills = {'skills': candidate.matching_skills.split(',')}
     return Response(dictionary_of_skills)
 
 
@@ -157,5 +174,5 @@ def get_matching_skills(request, id):
 @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
 def get_missing_skills(request, id):
     candidate = Candidate.objects.get(id=id)
-    dictionary_of_skills = {'skills': candidate.missing_skills.split(' ')}
+    dictionary_of_skills = {'skills': candidate.missing_skills.split(',')}
     return Response(dictionary_of_skills)

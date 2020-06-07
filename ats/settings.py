@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'knox',
+    # 'candidates',
     'frontend.apps.FrontendConfig',
     'candidates.apps.CandidatesConfig',
     'jobs.apps.JobsConfig',

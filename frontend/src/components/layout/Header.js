@@ -6,8 +6,10 @@ import { logout } from '../../actions/auth';
 class Header extends Component {
   render() {
       const { user, isAuthenticated } = this.props.auth;
+      const isSuperUser = this.props.is_super_user;
+      console.log("In header is super user: " + isSuperUser);
 
-      const userLinks = (
+      const superUserLinks = (
           <div className='right menu'>
           <Link className='item' to="/">Home</Link>
           <Link className='item' to="/job/">Job</Link>
@@ -22,6 +24,19 @@ class Header extends Component {
           </div>
         );
 
+      const candidateLinks = (
+          <div className='right menu'>
+          <Link className='item' to="/apply">Apply</Link>
+            <div className='ui simple dropdown item'>
+              {user ? user.username : ''}
+              <i className='dropdown icon' />
+              <div className='menu'>
+                <a onClick={this.props.logout} className='item'>Logout</a>
+              </div>
+            </div>
+          </div>
+      );
+
       const guestLinks = (
           <div className='right menu'>
             <Link to='/register' className='item'>Sign Up</Link>
@@ -33,15 +48,17 @@ class Header extends Component {
     return (
       <div className='ui inverted menu' style={{ borderRadius: '0' }}>
             <a className='ui header olive item'>InstATS APP</a>
-            {/*<Link className='header item' to="/">CandidateCRUD</Link>*/}
-            {isAuthenticated ? userLinks : guestLinks}
+            {/*<Link className='ui header olive item' to="/">InstATS App</Link>*/}
+            {isAuthenticated ? (isSuperUser ? superUserLinks: candidateLinks)
+                : guestLinks}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-   auth: state.auth
+    auth: state.auth,
+    is_super_user: state.auth.is_super_user
 });
 
 export default connect(

@@ -20,6 +20,7 @@ import SimilarCandidates from "./candidates/SimilarCandidates";
 import JobDashboard from "./job/JobDashboard";
 import KeywordsDelete from "./job/KeywordsDelete";
 import KeywordsEdit from "./job/KeywordsEdit";
+import ApplicantDashboard from "./candidates/ApplicantDashboard";
 
 
 class App extends Component{
@@ -37,6 +38,7 @@ class App extends Component{
                     <PrivateRoute exact path='/' component={Dashboard} />
                     <Route exact path='/register' component={RegisterForm} />
                     <Route exact path='/login' component={LoginForm} />
+                    <Route exact path='/apply' component={ApplicantDashboard} />
                     <Route exact path='/new/' component={CandidateCreate} />
                     <Route exact path='/details/:id' component={CandidateDetails} />
                     <Route exact path='/edit/:id' component={CandidateEdit} />

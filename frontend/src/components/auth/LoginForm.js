@@ -34,24 +34,13 @@ class LoginForm extends Component{
 
     render() {
         if (this.props.isAuthenticated) {
-            return <Redirect to='/' />;
+            console.log("After log in: " + this.props.is_super_user);
+            if(this.props.is_super_user)
+                return <Redirect to='/' />;
+            else
+                return <Redirect to='/apply'/>
         }
         return (
-            // <div className='ui container'>
-            //   <div className='ui segment'>
-            //     <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form'>
-            //       <Field name='username' type='text' component={this.renderField} label='Username'/>
-            //       <Field name='password' type='password' component={this.renderField} label='Password'/>
-            //       <Field name='non_field_errors' type='hidden' component={this.hiddenField}/>
-            //        {/*If the username and password do not match the information in the database, Django returns */}
-            //        {/*Non-field errors. To render this error, we need to have a field named 'non_field_errors'.*/}
-            //       <button className='ui primary button'>Login</button>
-            //     </form>
-            //     <p style={{ marginTop: '1rem' }}>
-            //       Don't have an account? <Link to='/register'>Register</Link>
-            //     </p>
-            //   </div>
-            // </div>
             // <div className="ui inverted vertical segment landpage-image">
             <div className="ui inverted vertical segment">
                 <div className='ui container' style={{ marginTop: '4rem'}}>
@@ -97,7 +86,9 @@ class LoginForm extends Component{
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    is_super_user: state.auth.is_super_user
+
 });
 
 LoginForm = connect(

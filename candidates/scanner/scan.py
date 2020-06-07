@@ -134,7 +134,8 @@ def get_matching_skills(job_skills, cv_skills):
         :return: Skills from the Job Description that are found in the CV
         """
     common_skills = job_skills.keys() & cv_skills.keys()  # find common skills from job description and CV
-    common_skills = sorted(common_skills)
+    common_skills = sorted(set(common_skills))
+
     return common_skills
 
 
@@ -144,30 +145,26 @@ def get_missing_skills(job_skills, cv_skills):
     :param cv_skills: list of skills from CV
     :return: Skills from the Job Description that are not found in the CV
     """
-    job_set = set(job_skills.items())
-    cv_set = set(cv_skills.items())
+    job_set = set(job_skills.keys())
+    cv_set = set(cv_skills.keys())
+    missing_skills = sorted(job_set - cv_set)
 
-    missing_skills_set = job_set - cv_set
-    missing_skills = []
-    for skill in missing_skills_set:
-        missing_skills.append(skill[0])
     return missing_skills
 
 
-def compute_cv_score(common_skills, keywords, default_score):
+def compute_cv_score(common_skills, cv_skills, keywords, default_score):
     """
     :param common_skills: list of skills that are found both in  CV and the Job Description
+    :param cv_skills: dictionary having as key the skill from cv and as value its frequency
     :param keywords: dict having as key a keyword and as value its weight/score
                     e.g.:  keywords = {'accounting': 100, 'audit': 80}
     :param default_score: the default score for words that are not weighted in keywords dict
     :return: the sum of the scores for each word/skill
     """
-    # TODO: Remove hardcoded keywords and default score
-    # keywords = {'accounting': 100, 'audit': 80, 'control': 60, 'excel': 95}
-    # default_score = 30
     final_score = 0
     for skill in common_skills:
-        final_score = final_score + keywords[skill] if skill in keywords.keys() else final_score + default_score
+        final_score = final_score + keywords[skill] * cv_skills[skill] \
+            if skill in keywords.keys() else final_score + default_score * cv_skills[skill]
     return final_score
 
 
@@ -182,10 +179,10 @@ def for_threads(path):
 def get_results(job_skills, cv_skills, keywords, default_score):
     common_skills = get_matching_skills(job_skills, cv_skills)
     missing_skills = get_missing_skills(job_skills, cv_skills)
-    score = compute_cv_score(common_skills, keywords, default_score)
+    score = compute_cv_score(common_skills, cv_skills, keywords, default_score)
 
-    string_common_skills = " ".join(common_skills)
-    string_missing_skills = " ".join(missing_skills)
+    string_common_skills = ",".join(common_skills)
+    string_missing_skills = ",".join(missing_skills)
 
     return score, string_common_skills, string_missing_skills
 
@@ -208,7 +205,7 @@ def get_skills_and_score_for_all_cvs(root_dir, job_description_file_dir, keyword
         results = [f.result() for f in concurrent.futures.as_completed(result_futures)]
 
     for result in results:
-        cv_skills = result[0]
+        cv_skills = result[0]  # skill as key and its frequency as value
         cv_name = result[1]
         score, string_common_skills, string_missing_skills = get_results(job_skills, cv_skills, keywords, default_score)
         print("SCORE FOR CV {} IS: {} \n".format(cv_name, score))

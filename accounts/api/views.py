@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 
@@ -36,7 +37,15 @@ class LoginAPIView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
+        super_users = User.objects.filter(is_superuser=True)
+
+        is_super_user = False
+        for user_s in super_users:
+            if user_s.email == user.email:
+                is_super_user = True
+
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
-            "token": AuthToken.objects.create(user)[1]
+            "token": AuthToken.objects.create(user)[1],
+            "is_super_user": is_super_user
         })
