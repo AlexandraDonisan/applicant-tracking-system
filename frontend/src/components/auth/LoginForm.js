@@ -34,7 +34,6 @@ class LoginForm extends Component{
 
     render() {
         if (this.props.isAuthenticated) {
-            console.log("After log in: " + this.props.is_super_user);
             if(this.props.is_super_user)
                 return <Redirect to='/' />;
             else
@@ -42,7 +41,7 @@ class LoginForm extends Component{
         }
         return (
             // <div className="ui inverted vertical segment landpage-image">
-            <div className="ui inverted vertical segment">
+            <div className="ui vertical segment">
                 <div className='ui container' style={{ marginTop: '4rem'}}>
                     <div className="ui middle aligned center aligned grid">
                         <div className="column" style={{ maxWidth: 450 }}>

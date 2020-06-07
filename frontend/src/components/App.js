@@ -21,6 +21,7 @@ import JobDashboard from "./job/JobDashboard";
 import KeywordsDelete from "./job/KeywordsDelete";
 import KeywordsEdit from "./job/KeywordsEdit";
 import ApplicantDashboard from "./candidates/ApplicantDashboard";
+import Schedule from "./candidates/Schedule";
 
 
 class App extends Component{
@@ -48,6 +49,7 @@ class App extends Component{
                     <Route exact path='/job/' component={JobDashboard} />
                     <Route exact path='/delete/keyword/:id' component={KeywordsDelete} />
                     <Route exact path='/edit/keyword/:id' component={KeywordsEdit} />
+                    <Route exact path='/schedule/:id' component={Schedule} />
                 </Switch>
           </Router>
       </Provider>

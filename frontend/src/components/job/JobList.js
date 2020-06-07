@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getJobs} from "../../actions/keywords";
 import axios from "axios";
 
 class JobList extends Component{
@@ -45,6 +42,7 @@ class JobList extends Component{
                         <div className='content'>
                             <a className='header'>{job.name}</a>
                             <div className='description'>Default score for skills: {job.default_score}</div>
+                            <div className='description'>Job Id: {job.id}</div>
                         </div>
                     </div>
                 ))}

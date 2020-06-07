@@ -7,7 +7,6 @@ class Header extends Component {
   render() {
       const { user, isAuthenticated } = this.props.auth;
       const isSuperUser = this.props.is_super_user;
-      console.log("In header is super user: " + isSuperUser);
 
       const superUserLinks = (
           <div className='right menu'>

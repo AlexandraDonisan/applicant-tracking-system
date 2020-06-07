@@ -38,8 +38,7 @@ class CandidateViewSet(viewsets.ModelViewSet):
     serializer_class = CandidateSerializer
 
     def perform_create(self, serializer):
-        # serializer.save(owner=self.request.user)
-        serializer.save(owner=User.objects.first())
+        serializer.save(owner=self.request.user)
         name_of_cv = str(self.request.data.get('cv'))
         compute_score_at_addition(name_of_cv)
         # The serializer will now have the 'owner' field by overriding the perform_create()

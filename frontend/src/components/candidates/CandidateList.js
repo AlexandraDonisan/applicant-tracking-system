@@ -21,13 +21,16 @@ class CandidateList extends Component{
         {this.props.candidates.sort((a,b) => b.score - a.score).map(candidate => (
           <div className='item' key={candidate.id}>
                 <div className='right floated content'>
-                  <Link to={`/delete/${candidate.id}`} className='small ui  red button'>Delete</Link>
+                  <Link to={`/delete/${candidate.id}`} className='small ui  pink button'>Delete</Link>
                 </div>
                 <div className='right floated content'>
-                  <Link to={`/edit/${candidate.id}/`} className='small ui olive button'>Edit</Link>
+                  <Link to={`/edit/${candidate.id}/`} className='small ui orange button'>Edit</Link>
                 </div>
               <div className='right floated content'>
-                  <Link to={`/skills/${candidate.id}/`} className='small ui  button'>Get Skills</Link>
+                  <Link to={`/skills/${candidate.id}/`} className='small ui yellow button'>Get Skills</Link>
+                </div>
+              <div className='right floated content'>
+                  <Link to={`/schedule/${candidate.id}/`} className='small ui olive button'>Accept</Link>
                 </div>
             <i className='large file alternate middle aligned icon' onClick={this.seeCVHandler(candidate.cv)}/>
             <div className='content'>
