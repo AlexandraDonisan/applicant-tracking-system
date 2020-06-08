@@ -10,6 +10,11 @@ from spacy.util import minibatch, compounding
 
 
 def convert_doccano_to_spacy(json_file_path):
+    """
+    Converts the JSON resulted from doccano tagging to spacy format
+    :param json_file_path: Path to the JSON document with text and labels
+    :return: A list containing the text(CV content) and dictionary with labels
+    """
     try:
         training_data = []
         lines = []
@@ -28,6 +33,12 @@ def convert_doccano_to_spacy(json_file_path):
 
 
 def write_summarized_doc_to_file(text_filename, nlp, text):
+    """
+    :param text_filename: Name of the summarized file
+    :param nlp: Natural Language Procesing --> existing spaCy model(in this case)
+    :param text: Summarized content taht is going to be save in the given file
+    :return:
+    """
     f = open(text_filename, "w", encoding="utf-8")
     doc_to_test = nlp(text)
     d = {}

@@ -117,7 +117,7 @@ def get_top_similar_cvs(similarities_matrix, cv_and_position, number=3):
 def get_skill_and_frequency(matched_skills):
     """
     :param matched_skills: list of skills that are found both in the CV and Job Description
-    :return: dict having as key teh skill name and as value the number of occurrences
+    :return: dict having as key the skill name and as value the number of occurrences
     """
     skill_and_frequency_dict = {}
     for skill in matched_skills:
@@ -161,14 +161,20 @@ def compute_cv_score(common_skills, cv_skills, keywords, default_score):
     :param default_score: the default score for words that are not weighted in keywords dict
     :return: the sum of the scores for each word/skill
     """
+    lower_keys = dict((k.lower(), v) for k, v in keywords.items())
     final_score = 0
     for skill in common_skills:
-        final_score = final_score + keywords[skill] * cv_skills[skill] \
-            if skill in keywords.keys() else final_score + default_score * cv_skills[skill]
+        final_score = final_score + lower_keys[skill] * cv_skills[skill] \
+            if skill in lower_keys.keys() else final_score + default_score * cv_skills[skill]
     return final_score
 
 
 def for_threads(path):
+    """
+    :param path: path to the CV that is going to be handled by the thread
+    :return: dict having as key the skill name and as value the number of occurrences
+            + name of CV (without termination e.g .txt)
+    """
     with open(path, 'r', errors='ignore') as cv_file:
         cv = cv_file.read()
     cv_name = cv_file.name.split("\\")[-1]
@@ -177,6 +183,14 @@ def for_threads(path):
 
 
 def get_results(job_skills, cv_skills, keywords, default_score):
+    """
+    :param job_skills: List of skills found in job description
+    :param cv_skills: List of skills found in CV
+    :param keywords: Dictionary that has as key the skill name and as value its score/weight
+    :param default_score: Default score for skills that are not included in Keywords dictionary
+    :return: The computed score for the CV and 2 strings, one for matching skills(from CV and job description)
+            and one for missing skills
+    """
     common_skills = get_matching_skills(job_skills, cv_skills)
     missing_skills = get_missing_skills(job_skills, cv_skills)
     score = compute_cv_score(common_skills, cv_skills, keywords, default_score)
@@ -214,7 +228,15 @@ def get_skills_and_score_for_all_cvs(root_dir, job_description_file_dir, keyword
     return cvs_with_skills_and_score
 
 
-def get_skill_and_score_for_one_cv(cv_file_dir, job_description_file_dir,  keywords, default_score):
+def get_skill_and_score_for_one_cv(cv_file_dir, job_description_file_dir, keywords, default_score):
+    """
+    :param cv_file_dir: Path to the CV file
+    :param job_description_file_dir: Path to the job description file
+    :param keywords: Dictionary that has as key the skill name and as value its score/weight
+    :param default_score: Default score for skills that are not included in Keywords dictionary
+    :return: Dictionary having as key the CV name(without termination) and as value a list containing the string of
+        matching skills between CV and Job Description, a string of missing skills and the score for the CV
+    """
     with open(job_description_file_dir, 'r') as F:
         job_description = F.read()
 

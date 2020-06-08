@@ -23,7 +23,8 @@ class KeywordsList extends Component {
                         <i className='large calendar outline middle aligned icon' />
                         <div className='content'>
                             <a className='header'>{keyword.word}</a>
-                            <div className='description'>{keyword.weight}</div>
+                            <div className='description'>Score: {keyword.weight}</div>
+                            <div className='description'> Job Id: {keyword.job}</div>
                         </div>
                     </div>
                 ))}

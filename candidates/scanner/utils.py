@@ -9,6 +9,12 @@ from candidates.scanner.train_spacy_ner import summarize_text
 
 
 def get_pdf_content_tika(pdf_filename, save_path='cv/converted_cvs_to_txt/cvs'):
+    """
+    Converts the given PDF file to .txt format and saves it to the save_path
+    :param pdf_filename: Name of the pdf file(with termination e.g: .pdf)
+    :param save_path: Path to the location where the converted will be saved
+    :return: -
+    """
     text_filename = os.path.join(save_path, pdf_filename.split("\\")[-1].split(".")[0] + ".txt")
     f = open(text_filename, "w", encoding='utf-8')
     parsed_pdf = parser.from_file(pdf_filename)
@@ -18,6 +24,12 @@ def get_pdf_content_tika(pdf_filename, save_path='cv/converted_cvs_to_txt/cvs'):
 
 
 def get_word_content(word_filename, save_path='cv/converted_cvs_to_txt/cvs'):
+    """
+    Converts the given DOCX file to .txt format and saves it to the save_path
+    :param word_filename: Name of the doc file(with termination e.g: .docx)
+    :param save_path: Path to the location where the converted will be saved
+    :return: -
+    """
     word_file_path = word_filename.replace("\\", "/")
     word_filename = word_file_path.split("/")[-1]
     text = str(textract.process(word_file_path)).replace("b\"", "").replace("b'", "").replace("\\n", " ").replace("\\t", " ")[:-1]
@@ -28,6 +40,10 @@ def get_word_content(word_filename, save_path='cv/converted_cvs_to_txt/cvs'):
 
 
 def list_all_files_from_dir(root_dir):
+    """
+    :param root_dir: Directory where there are several files
+    :return: A list containing all files existing in the given directory
+    """
     all_files = []
 
     for subdir, dirs, files in os.walk(root_dir):
@@ -76,6 +92,11 @@ def go_through_dir(root_dir, save_path='cv/converted_cvs_to_txt/cvs'):
 
 
 def go_through_dir_and_summarize(root_dir):
+    """
+    For all existing CVs in the given directory, compute summary of text by sharing the work among threads
+    :param root_dir: Directory where all CVs are stored
+    :return: -
+    """
     all_files = list_all_files_from_dir(root_dir)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
@@ -84,6 +105,10 @@ def go_through_dir_and_summarize(root_dir):
 
 
 def get_json_content(filename_path):
+    """
+    :param filename_path: Path to the JSON file
+    :return: JSON content of the given document
+    """
     with open(filename_path, 'r', encoding="utf8") as f:
         lines = f.readlines()
     file_data = lines[0].replace("}{", "},{")
@@ -93,7 +118,12 @@ def get_json_content(filename_path):
 
 
 def phrase_matcher(text=None, skills_path='cv/skills/cleaned_related_skills.json'):
+    """
 
+    :param text: Text that is going to be parsed
+    :param skills_path: Path to the list of skills
+    :return: List of skills from the JSON document that are found in the given text
+    """
     nlp = spacy.load('en_core_web_sm')  # Language class with the English model 'en_core_web_sm' is loaded
     matcher = PhraseMatcher(nlp.vocab, attr='LOWER')  # create the PhraseMatcher object
     terminology_list = []
