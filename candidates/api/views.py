@@ -50,6 +50,12 @@ class CandidateViewSet(viewsets.ModelViewSet):
     #     return super().destroy(request, *args, **kwargs)
 
 
+def get_candidate_by_owner(request, id):
+    owner = User.objects.get(id=id)
+    candidate = Candidate.objects.get(owner=owner)
+    return candidate
+
+
 def compute_score_at_addition(cv_name):
     """
     Computes Score for only one CV at the addition time

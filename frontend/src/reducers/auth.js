@@ -13,7 +13,7 @@ const initialState = {
   isLoading: false,
   isAuthenticated: null,
   user: null,
-  is_super_user: true,  // TODO: Change to false
+  is_super_user: false,  // TODO: Change to false
   token: localStorage.getItem('token') // Tokens are stored in a web browser using the localStorage property.
 };
 

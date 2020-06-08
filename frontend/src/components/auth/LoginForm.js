@@ -38,6 +38,7 @@ class LoginForm extends Component{
                 return <Redirect to='/' />;
             else
                 return <Redirect to='/apply'/>
+
         }
         return (
             // <div className="ui inverted vertical segment landpage-image">

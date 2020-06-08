@@ -87,6 +87,7 @@ export const logout = () => async (dispatch, getState) => {
   dispatch({
     type: LOGOUT_SUCCESS
   });
+   window.location = '/login'
 };
 
 export const tokenConfig = getState => {

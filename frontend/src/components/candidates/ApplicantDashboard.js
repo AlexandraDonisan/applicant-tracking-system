@@ -12,7 +12,7 @@ class ApplicantDashboard extends Component{
             candidate: [],
             loading: false,
             auth: {token: localStorage.getItem('token')}
-    }}
+        }}
 
     applicationHandler = () => {
         this.setState({ loading: true }, () => {
@@ -35,6 +35,10 @@ class ApplicantDashboard extends Component{
         });
     };
 
+    getApplicant = () => {
+
+    };
+
     checkMostSimilarHandler = () => {
         this.setState({ loading: true }, () => {
             axios.get('http://127.0.0.1:8000/api/candidate/get_similar_cvs/')
@@ -50,6 +54,8 @@ class ApplicantDashboard extends Component{
     render() {
         const { candidate, loading } = this.state;
         console.log("Candidate data: " + JSON.stringify(candidate));
+        console.log("state.auth: " + JSON.stringify(this.state.auth));
+
         return (
             <div className="App">
                 {loading ? <LoadingSpinner/> :
@@ -96,6 +102,16 @@ class ApplicantDashboard extends Component{
                                 {/*       onChange={event => {this.setState({profile_image: event.target.value[0]})}} />*/}
 
                                 <button className='ui olive button' onClick={this.applicationHandler}>Submit</button>
+                            </div>
+                        </div>
+                        <div className="left floated right aligned six wide column">
+                            <div className="ui segment">
+                                <h4 className="ui purple header">Application Date:</h4>
+                                {candidate ? candidate.application_date : <p>Time to apply..</p>}
+                            </div>
+                            <div className="ui segment">
+                                <h4 className="ui purple header">Status of your application:</h4>
+                                {candidate ? candidate.response_message :  <p>Here the status of your application will be shown </p>}
                             </div>
                         </div>
                     </div>

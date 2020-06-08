@@ -1,7 +1,8 @@
 from django.urls import path
 from rest_framework import routers
-from .views import CandidateViewSet,  \
-    compute_score_view, get_similar_cvs_view, summarize_all_cvs, get_matching_skills, get_missing_skills
+from .views import CandidateViewSet, \
+    compute_score_view, get_similar_cvs_view, summarize_all_cvs, get_matching_skills, get_missing_skills, \
+    get_candidate_by_owner
 
 router = routers.DefaultRouter()
 router.register('candidates', CandidateViewSet, 'candidates')
@@ -15,6 +16,8 @@ urlpatterns = [
     path('candidate/summarize_cvs/', summarize_all_cvs, name='summarize_all_cvs'),
     path('candidate/matching_skills/<int:id>/', get_matching_skills, name='get_matching_skills'),
     path('candidate/missing_skills/<int:id>/', get_missing_skills, name='get_missing_skills'),
+    path('candidate/get_by_owner/<int:id>/', get_candidate_by_owner, name='get_by_owner'),
+
 ]
 
 urlpatterns += router.urls
