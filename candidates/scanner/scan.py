@@ -218,7 +218,7 @@ def get_skill_and_score_for_one_cv(cv_file_dir, job_description_file_dir,  keywo
     with open(job_description_file_dir, 'r') as F:
         job_description = F.read()
 
-    with open(cv_file_dir, 'r') as F:
+    with open(cv_file_dir, 'r', encoding="utf8") as F:
         cv = F.read()
 
     job_skills = get_skill_and_frequency(utils.phrase_matcher(job_description))

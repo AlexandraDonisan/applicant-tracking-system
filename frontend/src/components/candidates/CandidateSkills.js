@@ -18,24 +18,24 @@ class CandidateSkills extends Component{
         this.getMatchingSkills()
     }
 
-    getMissingSkills(){
+    getMatchingSkills(){
         this.setState({ loading: true }, () => {
             axios.get(`http://127.0.0.1:8000/api/candidate/matching_skills/${this.props.match.params.id}/`)
                 .then(result => {
                     console.log("Response: " + JSON.stringify(result.data));
-                    this.setState({missingSkills: result.data, loading: false, })})
+                    this.setState({matchingSkills: result.data, loading: false, })})
                 .catch((res) => {
                     console.log(res);
                 })
         })
     }
 
-    getMatchingSkills(){
+    getMissingSkills(){
         this.setState({ loading: true }, () => {
             axios.get(`http://127.0.0.1:8000/api/candidate/missing_skills/${this.props.match.params.id}/`)
                 .then(result => {
                     // console.log("Response: " + JSON.stringify(result.data));
-                    this.setState({matchingSkills: result.data, loading: false, })})
+                    this.setState({missingSkills: result.data, loading: false, })})
                 .catch((res) => {
                     console.log(res);
                 })

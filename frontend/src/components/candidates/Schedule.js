@@ -7,6 +7,7 @@ class Schedule extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            candidateName: this.props.candidate.name,
             textareaDefaultValue: `Hi ${this.props.candidate.name},
 
 Thanks for your application to our company. We were impressed by your background and would like to 
@@ -50,7 +51,10 @@ Looking forward to meeting you ^-^`
                         <div className='ui container' style={divStyleContainer}>
                             <div className="ui middle aligned center aligned grid">
                                 <div className="column" style={{ maxWidth: 900}}>
-                                    <h2 className="ui purple header" style={{ marginTop: '2rem' }}>{this.props.candidate.name}</h2>
+                                    <h2 className="ui purple header" style={{ marginTop: '2rem' }}>
+                                        {
+                                            typeof (this.state.candidateName) !== 'undefined' ?
+                                                this.state.candidateName : null}</h2>
                                     <div className="ui segment" >
                                         <div className="ui form" >
                                             <div className="field">

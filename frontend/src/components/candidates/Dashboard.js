@@ -58,11 +58,11 @@ class Dashboard extends Component {
 
         return (
             <div className='ui container'>
-                <button className="ui olive labeled icon button" onClick={this.computeScoreHandler}>
+                <button className="ui orange labeled icon button" onClick={this.computeScoreHandler}>
                     <i className="tasks icon"></i>
                     Compute Score for all CVs
                 </button>
-                    <Button as={Link} to="/similar/cvs" className="ui olive labeled icon button"
+                    <Button as={Link} to="/similar/cvs" className="ui yellow labeled icon button"
                             onClick={this.checkMostSimilarHandler}>
                         <i className="chart bar icon" ></i>
                         Check Most Similar CVs
@@ -72,7 +72,6 @@ class Dashboard extends Component {
                     Summarize CVs
                 </button>
                     {loading ? <LoadingSpinner /> : <CandidateList />}
-                {/*<CandidateList />*/}
             </div>
         );
     }

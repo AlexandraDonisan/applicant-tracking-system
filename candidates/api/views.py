@@ -50,10 +50,12 @@ class CandidateViewSet(viewsets.ModelViewSet):
     #     return super().destroy(request, *args, **kwargs)
 
 
+@api_view(('GET',))
+@renderer_classes((TemplateHTMLRenderer, JSONRenderer))
 def get_candidate_by_owner(request, id):
     owner = User.objects.get(id=id)
-    candidate = Candidate.objects.get(owner=owner)
-    return candidate
+    candidate = Candidate.objects.filter(owner=owner).last()
+    return Response(CandidateSerializer(candidate).data)
 
 
 def compute_score_at_addition(cv_name):
@@ -132,6 +134,25 @@ def get_similar_cvs_view(request):
     top = scanner.get_top_similar_cvs(similarity_matrix, position_and_cv_name)
     import json
     return HttpResponse(json.dumps(top))
+
+
+@api_view(('GET',))
+@renderer_classes((TemplateHTMLRenderer, JSONRenderer))
+def get_similarities_of_one_cv(request, id):
+    similarity_matrix, position_and_cv_name = scanner.compute_similarity_of_all_cvs('cv/converted_cvs_to_txt/cvs',
+                                                                                    'cv/converted_cvs_to_txt'
+                                                                                    '/job_description'
+                                                                                    '/job_description.txt')
+    owner = User.objects.get(id=id)
+    candidate = Candidate.objects.filter(owner=owner).last()
+    cv_name = str(candidate.cv).split('/')[-1].split('.')[0] + '.txt'
+    position_in_matrix = list(position_and_cv_name.keys())[list(position_and_cv_name.values()).index(cv_name)]
+    percentages_of_similarity = similarity_matrix[position_in_matrix]
+    largest_percentages = sorted(percentages_of_similarity, reverse=True)[1:4]
+    top = {}
+    for index in range(len(largest_percentages)):
+        top[index] = float("{:.2f}".format(largest_percentages[index] * 100))
+    return Response(top)
 
 
 def summarize_all_cvs(request, root_dir='cv/converted_cvs_to_txt/cvs'):

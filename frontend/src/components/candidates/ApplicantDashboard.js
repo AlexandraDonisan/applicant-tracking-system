@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import {Link} from "react-router-dom";
 import {Button} from "semantic-ui-react";
 import LoadingSpinner from "../common/LoadingSpinner";
-import {tokenConfig} from "../../actions/auth";
+import {login, tokenConfig} from "../../actions/auth";
+import {connect} from "react-redux";
+import Popup from "../common/Popup";
 
 class ApplicantDashboard extends Component{
     constructor(props) {
         super(props);
         this.state = {
             candidate: [],
+            percentages: [],
             loading: false,
+            showPopup: false,
+            user: this.props.user,
             auth: {token: localStorage.getItem('token')}
         }}
+
+    componentDidMount(){
+        this.getApplicant()
+    }
+
+    togglePopup() {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
 
     applicationHandler = () => {
         this.setState({ loading: true }, () => {
@@ -33,18 +47,32 @@ class ApplicantDashboard extends Component{
                     console.log(res);
                 })
         });
+        alert('Response has been sent!');
     };
 
     getApplicant = () => {
-
+        this.setState({ loading: true }, () => {
+            const config = tokenConfig(() => this.state);
+            axios.get(`http://127.0.0.1:8000/api/candidate/get_by_owner/${this.state.user.id}/`, config)
+                .then(result => {
+                    // console.log("Response: " + JSON.stringify(result.data));
+                    this.setState({candidate: result.data, loading: false,})
+                })
+                .catch((res) => {
+                    console.log(res);
+                })
+        });
     };
 
     checkMostSimilarHandler = () => {
         this.setState({ loading: true }, () => {
-            axios.get('http://127.0.0.1:8000/api/candidate/get_similar_cvs/')
-                .then(result => this.setState({
-                    loading: false,
-                }))
+            axios.get(`http://127.0.0.1:8000/api/candidate/get_similarities/${this.state.user.id}/`)
+                .then(result => {console.log("Response: " + JSON.stringify(result.data));
+                    this.setState({
+                        percentages: result.data,
+                        showPopup: !this.state.showPopup,
+                        loading: false,
+                    })})
                 .catch((res) => {
                     console.log(res);
                 })
@@ -52,19 +80,24 @@ class ApplicantDashboard extends Component{
     };
 
     render() {
-        const { candidate, loading } = this.state;
-        console.log("Candidate data: " + JSON.stringify(candidate));
-        console.log("state.auth: " + JSON.stringify(this.state.auth));
-
+        const { candidate, percentages, loading } = this.state;
+        if (percentages){
+            var percentagesAsText = 'Top 3 similarity percentages between your CV and other applications:';
+            percentagesAsText += '\n' + percentages[0] + '%, ' +  percentages[1] + '%, ' + percentages[2] + '%'
+        }
+        console.log(percentages[0]);
         return (
             <div className="App">
                 {loading ? <LoadingSpinner/> :
                     <div className='ui container'>
-                        <Button as={Link} to="/similar/cvs" className="ui olive labeled icon button"
+                        <Button className="ui olive labeled icon button"
                                 onClick={this.checkMostSimilarHandler}>
                             <i className="chart bar icon"></i>
-                            Check Most Similar CVs
+                            Check Similarity with other CVs
                         </Button>
+                        {this.state.showPopup ?
+                            <Popup text={percentagesAsText} closePopup={this.togglePopup.bind(this)} /> : null
+                        }
                         <h2 style={{marginTop: '2rem'}}>Create Candidate</h2>
                         <div className='ui segment'>
                             <div className='ui form error'>
@@ -106,11 +139,11 @@ class ApplicantDashboard extends Component{
                         </div>
                         <div className="left floated right aligned six wide column">
                             <div className="ui segment">
-                                <h4 className="ui purple header">Application Date:</h4>
+                                <h4 className="ui olive header">Application Date:</h4>
                                 {candidate ? candidate.application_date : <p>Time to apply..</p>}
                             </div>
                             <div className="ui segment">
-                                <h4 className="ui purple header">Status of your application:</h4>
+                                <h4 className="ui olive header">Status of your application:</h4>
                                 {candidate ? candidate.response_message :  <p>Here the status of your application will be shown </p>}
                             </div>
                         </div>
@@ -121,4 +154,11 @@ class ApplicantDashboard extends Component{
     }
 }
 
-export default ApplicantDashboard
+const mapStateToProps = state => ({
+    user: state.auth.user
+});
+
+export default connect(
+    mapStateToProps,
+    { login }
+)(ApplicantDashboard);
