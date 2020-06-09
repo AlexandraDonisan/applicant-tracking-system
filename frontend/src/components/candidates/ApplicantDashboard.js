@@ -47,7 +47,6 @@ class ApplicantDashboard extends Component{
                     console.log(res);
                 })
         });
-        alert('Response has been sent!');
     };
 
     getApplicant = () => {
@@ -82,7 +81,7 @@ class ApplicantDashboard extends Component{
     render() {
         const { candidate, percentages, loading } = this.state;
         if (percentages){
-            var percentagesAsText = 'Top 3 similarity percentages between your CV and other applications:';
+            var percentagesAsText = 'Top 3 similar CVs to yours:';
             percentagesAsText += '\n' + percentages[0] + '%, ' +  percentages[1] + '%, ' + percentages[2] + '%'
         }
         console.log(percentages[0]);
@@ -98,7 +97,7 @@ class ApplicantDashboard extends Component{
                         {this.state.showPopup ?
                             <Popup text={percentagesAsText} closePopup={this.togglePopup.bind(this)} /> : null
                         }
-                        <h2 style={{marginTop: '2rem'}}>Create Candidate</h2>
+                        <h2 style={{marginTop: '2rem'}}>Create Your Profile</h2>
                         <div className='ui segment'>
                             <div className='ui form error'>
                                 <div className='field'>

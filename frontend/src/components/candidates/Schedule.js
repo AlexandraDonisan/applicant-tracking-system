@@ -36,7 +36,8 @@ Looking forward to meeting you ^-^`
                 })
                 .catch((res) => {
                     console.log(res);
-                })
+                });
+        alert('Response has been sent!');
     };
 
     render() {
@@ -51,7 +52,7 @@ Looking forward to meeting you ^-^`
                         <div className='ui container' style={divStyleContainer}>
                             <div className="ui middle aligned center aligned grid">
                                 <div className="column" style={{ maxWidth: 900}}>
-                                    <h2 className="ui purple header" style={{ marginTop: '2rem' }}>
+                                    <h2 className="ui olive header" style={{ marginTop: '2rem' }}>
                                         {
                                             typeof (this.state.candidateName) !== 'undefined' ?
                                                 this.state.candidateName : null}</h2>
