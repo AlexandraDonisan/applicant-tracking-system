@@ -30,7 +30,7 @@ class CandidateList extends Component{
                   <Link to={`/skills/${candidate.id}/`} className='small ui yellow button'>Get Skills</Link>
                 </div>
               <div className='right floated content'>
-                  <Link to={`/schedule/${candidate.id}/`} className='small ui olive button'>Accept</Link>
+                  <Link to={`/schedule/${candidate.id}/`} className='small ui olive button'>Send Response</Link>
                 </div>
             <i className='large file alternate middle aligned icon' onClick={this.seeCVHandler(candidate.cv)}/>
             <div className='content'>
