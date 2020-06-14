@@ -16,8 +16,6 @@ class Candidate(models.Model):
     application_date = models.DateTimeField(auto_now_add=True)
     cv = models.FileField(blank=True, null=True, default=None, upload_to='./cvs')
     score = models.IntegerField(null=True)
-    profile_image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
-    is_score_computed = models.BooleanField(default=False)
     is_summarized = models.BooleanField(default=False)
     summarized_cv = models.TextField(blank=True, null=True)
     matching_skills = models.TextField(blank=True, null=True)

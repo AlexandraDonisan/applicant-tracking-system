@@ -27,9 +27,9 @@ def convert_documents_to_txt(path, save_path='cv/converted_cvs_to_txt/cvs'):
 
 def clean_document(doc):
     """
-    :param doc: body of the document
-    :return: list of words from the document. The stopwords and punctuation/special characters have been eliminated.
-        The words are lemmatized
+    :param doc: Body of the document
+    :return: List of tokens(words) from the document. The stopwords and punctuation/special
+            characters have been eliminated. The words are lemmatized
     """
     stop_words = set(stopwords.words('english'))
     special_characters = '•—o'
@@ -43,9 +43,9 @@ def clean_document(doc):
 
 def cosine_similarity(text_list):
     """
-    :param text_list: the list containing the tokenized text(i.e. all words from the text as elements of the list
-    :return: similarity matrix having 1s on the main diagonal and the values of the TF-IDF vetorizer on the indexes
-    correspinding to each CV number
+    :param text_list: The list containing the tokenized text(i.e. all words from the text as elements of a list)
+    :return: Similarity matrix having 1s on the main diagonal and the values of the TF-IDF vectorizer on the indexes
+            corresponding to each CV number
     """
     tf_idf = TfidfVectorizer(tokenizer=clean_document).fit_transform(text_list)
     return (tf_idf * tf_idf.T).toarray()

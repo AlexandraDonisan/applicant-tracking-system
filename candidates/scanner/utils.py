@@ -122,7 +122,9 @@ def phrase_matcher(text=None, skills_path='cv/skills/cleaned_related_skills.json
 
     :param text: Text that is going to be parsed
     :param skills_path: Path to the list of skills
-    :return: List of skills from the JSON document that are found in the given text
+    :return: List of tuples having on the 4th position the skill from the JSON document that is found in the given text
+            e.g. [(11356100181062323261, 'Phrase Matching', 324, 325, 'client'),
+            (11356100181062323261, 'Phrase Matching', 316, 317, 'analysis')]
     """
     nlp = spacy.load('en_core_web_sm')  # Language class with the English model 'en_core_web_sm' is loaded
     matcher = PhraseMatcher(nlp.vocab, attr='LOWER')  # create the PhraseMatcher object
@@ -141,7 +143,7 @@ def phrase_matcher(text=None, skills_path='cv/skills/cleaned_related_skills.json
     matches = matcher(doc)
     matched_skills = []
 
-    for match_id, start, end in matches:
+    for match_id, start, end in matches:   # start and stop indexes of the matched words
         string_id = nlp.vocab.strings[match_id]  # Get the string representation
         span = doc[start:end]  # The matched span
         matched_skills.append((match_id, string_id, start, end, span.text.lower()))

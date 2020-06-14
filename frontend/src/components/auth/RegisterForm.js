@@ -33,7 +33,7 @@ class RegisterForm extends Component{
             <Field name='email' type='email' component={this.renderField} label='Email' validate={required}/>
             <Field name='password' type='password' component={this.renderField} label='Password' validate={required}/>
             <Field name='password2' type='password' component={this.renderField} label='Confirm Password' validate={[required, passwordsMatch]}/>
-            <button className='ui primary button'>Register</button>
+            <button className='ui olive button'>Register</button>
           </form>
           <p style={{ marginTop: '1rem' }}>
             Already have an account? <Link to='/login'>Login</Link>
