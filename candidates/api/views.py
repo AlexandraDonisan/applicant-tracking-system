@@ -136,6 +136,18 @@ def get_similar_cvs_view(request):
     return HttpResponse(json.dumps(top))
 
 
+def get_similarities_of_one_cv_hr_side(request, id):
+    similarity_matrix, position_and_cv_name = scanner.compute_similarity_of_all_cvs('cv/converted_cvs_to_txt/cvs',
+                                                                                    'cv/converted_cvs_to_txt'
+                                                                                    '/job_description'
+                                                                                    '/job_description.txt')
+    candidate = Candidate.objects.get(id=id)
+    cv_name = str(candidate.cv).split('/')[-1].split('.')[0] + '.txt'
+    top = scanner.get_top_similarities_for_one_cv(similarity_matrix, position_and_cv_name, cv_name)
+    import json
+    return HttpResponse(json.dumps(top))
+
+
 @api_view(('GET',))
 @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
 def get_similarities_of_one_cv(request, id):

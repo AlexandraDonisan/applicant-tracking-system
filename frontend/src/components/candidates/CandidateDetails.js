@@ -2,7 +2,8 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {editCandidate, getCandidate} from "../../actions/candidates";
-import CandidateForm from "./CandidateForm";
+import {Link} from "react-router-dom";
+import {Button} from "semantic-ui-react";
 
 class CandidateDetails extends Component {
     componentDidMount() {
@@ -14,10 +15,16 @@ class CandidateDetails extends Component {
         window.open(param, '_blank');
     };
 
+
     render() {
+        const path = `/similarities/${this.props.match.params.id}`;
         return (
             <div className='ui container'>
                 <h2 style={{ marginTop: '2rem' }}>Candidate</h2>
+                <Button as={Link} to={path} className="ui olive labeled icon button">
+                        <i className="chart bar icon" ></i>
+                        Check Most Similar CVs
+                    </Button>
                 <div className="ui inverted segment" >
                     <div role="list" className="ui divided inverted relaxed list">
                         <div role="listitem" className="item">

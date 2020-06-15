@@ -92,6 +92,7 @@ def compute_similarity_of_all_cvs(root_dir, job_description_file_dir):
 
 def get_top_similar_cvs(similarities_matrix, cv_and_position, number=3):
     """
+    Computes top similarities for all CVs
     :param similarities_matrix: matrix result from the cosine similarities algorithm
     :param cv_and_position: dict having as key the cv number ( the n-th cv that entered the scanning in the
         compute_similarity_of_all_cvs() method) and as value the cv name
@@ -111,6 +112,31 @@ def get_top_similar_cvs(similarities_matrix, cv_and_position, number=3):
         top[n] = [cv_and_position[index_cv_1].split('.')[0].replace('_', ' '),
                   cv_and_position[index_cv_2].split('.')[0].replace('_', ' '), str(percent) + "%"]
 
+    return top
+
+
+def get_top_similarities_for_one_cv(similarities_matrix, cv_and_position, cv_name, number=3):
+    """
+    This computes the similarities for a given CV having the name "cv_name"
+    :param similarities_matrix: matrix result from the cosine similarities algorithm
+    :param cv_and_position: dict having as key the cv number ( the n-th cv that entered the scanning in the
+        compute_similarity_of_all_cvs() method) and as value the cv name
+    :param cv_name: Name of the CV with termination .txt
+    :param number: top "n" CVs
+    :return: dict{top_number : [cv1_name, cv2_name]} e.g. {0: ['cv1.txt', 'cv2.txt', 0.6], 1: ['cv1.txt', 'cv3.txt', 0.5]}
+        """
+    number = len(cv_and_position) - 1 if number > len(cv_and_position) else number + 1
+    import heapq
+    top = {}
+    cv_pos = list(cv_and_position.keys())[list(cv_and_position.values()).index(cv_name)]
+    top_percentages = heapq.nlargest(number, similarities_matrix[cv_pos])
+    top_n_most_similar = sorted(top_percentages, reverse=True)[1:number]
+
+    for n in range(number - 1):
+        index_similar_cv = list(similarities_matrix[cv_pos]).index(top_n_most_similar[n])
+        percent = float("{:.2f}".format(top_n_most_similar[n] * 100))
+        top[n] = [cv_and_position[cv_pos].split('.')[0].replace('_', ' '),
+                  cv_and_position[index_similar_cv].split('.')[0].replace('_', ' '), str(percent) + "%"]
     return top
 
 

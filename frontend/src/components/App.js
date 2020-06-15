@@ -46,6 +46,7 @@ class App extends Component{
                     <Route exact path='/delete/:id' component={CandidateDelete} />
                     <Route exact path='/skills/:id' component={CandidateSkills} />
                     <Route exact path='/similar/cvs' component={SimilarCandidates} />
+                    <Route exact path='/similarities/:id' component={SimilarCandidates} />
                     <Route exact path='/job/' component={JobDashboard} />
                     <Route exact path='/delete/keyword/:id' component={KeywordsDelete} />
                     <Route exact path='/edit/keyword/:id' component={KeywordsEdit} />

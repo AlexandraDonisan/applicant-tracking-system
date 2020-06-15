@@ -17,10 +17,11 @@ class SimilarCandidates extends Component{
 
     fetchResponse(){
         this.setState({ loading: true }, () => {
-            axios.get('http://127.0.0.1:8000/api/candidate/get_similar_cvs/')
+            axios.get(`http://127.0.0.1:8000/api/candidate/get_similarities_of_one_cv_hr/${this.props.match.params.id}`)
                 .then(result => {
                     console.log("Response: " + JSON.stringify(result.data));
-                    this.setState({data: result.data, loading: false, })})
+                    this.setState({data: result.data, loading: false,})}
+                )
                 .catch((res) => {
                     console.log(res);
                 })

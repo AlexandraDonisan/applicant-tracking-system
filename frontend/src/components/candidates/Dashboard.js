@@ -37,18 +37,6 @@ class Dashboard extends Component {
         })
     };
 
-    checkMostSimilarHandler = () => {
-        this.setState({ loading: true }, () => {
-            axios.get('http://127.0.0.1:8000/api/candidate/get_similar_cvs/')
-                .then(result => this.setState({
-                    loading: false,
-                }))
-                .catch((res) => {
-                    console.log(res);
-                })
-        })
-    };
-
     btnTapped() {
         console.log('tapped');
     }
@@ -58,18 +46,13 @@ class Dashboard extends Component {
 
         return (
             <div className='ui container'>
-                <button className="ui orange labeled icon button" onClick={this.computeScoreHandler}>
+                <button className="ui olive labeled icon button" onClick={this.computeScoreHandler}>
                     <i className="tasks icon"></i>
                     Compute Score for all CVs
                 </button>
-                    <Button as={Link} to="/similar/cvs" className="ui yellow labeled icon button"
-                            onClick={this.checkMostSimilarHandler}>
-                        <i className="chart bar icon" ></i>
-                        Check Most Similar CVs
-                    </Button>
-                <button className="ui olive labeled icon button" onClick={this.SummarizeCVsHandler}>
+                <button className="ui yellow labeled icon button" onClick={this.SummarizeCVsHandler}>
                     <i className="tasks icon"></i>
-                    Summarize CVs
+                    Summarize all CVs
                 </button>
                     {loading ? <LoadingSpinner /> : <CandidateList />}
             </div>
