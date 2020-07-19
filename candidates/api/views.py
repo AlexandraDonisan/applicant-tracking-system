@@ -186,7 +186,7 @@ def summarize_all_cvs(request, root_dir='cv/converted_cvs_to_txt/cvs'):
 
 def summarize_cv_at_addition(cv_path):
     """
-    :param cv_path: path thgrough the cv.txt(included)
+    :param cv_path: path through the cv.txt(included)
     :return:
     """
     spacy_model.summarize_text(cv_path)

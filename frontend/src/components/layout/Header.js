@@ -46,7 +46,7 @@ class Header extends Component {
 
     return (
       <div className='ui inverted menu' style={{ borderRadius: '0' }}>
-            <a className='ui header olive item'>InstATS APP</a>
+            <a className='ui header olive item'>InstATS Application</a>
             {/*<Link className='ui header olive item' to="/">InstATS App</Link>*/}
             {isAuthenticated ? (isSuperUser ? superUserLinks: candidateLinks)
                 : guestLinks}

@@ -100,7 +100,10 @@ Regards`;
                                             <div className="field">
                                                 <label>Enter Response Message:</label>
                                                 <textarea value={this.state.textareaDefaultValue}
-                                                          onChange={event => {this.setState({responseMessage: event.target.value})}}>
+                                                          onChange={event => {this.setState(
+                                                              {responseMessage: event.target.value,
+                                                                  textareaDefaultValue: event.target.value
+                                                              })}}>
 
                                                 </textarea>
                                             </div>

@@ -34,11 +34,11 @@ class CandidateList extends Component{
                 </div>
             <i className='large file alternate middle aligned icon' onClick={this.seeCVHandler(candidate.cv)}/>
             <div className='content'>
-                <Link to={`/details/${candidate.id}/`} className='header'>{candidate.name}</Link>
+                <Link to={`/details/${candidate.id}/`} className='ui medium olive header'>{candidate.name}</Link>
                 <div className='description'>{candidate.email}</div>
                 <div className='description'>{candidate.hello_message}</div>
                 <div className='description'>{candidate.application_date}</div>
-                <div className='description'>{candidate.score}</div>
+                <div className='ui blue label'>{candidate.score}</div>
             </div>
           </div>
         ))}
